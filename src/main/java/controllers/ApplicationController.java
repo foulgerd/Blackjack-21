@@ -31,8 +31,8 @@ public class ApplicationController {
         return Results.html();
     }
 
-    public Result acesUp() {
-        return Results.html().template("views/AcesUp/AcesUp.flt.html");
+    public Result blackjack() {
+        return Results.html().template("views/Blackjack/Blackjack.flt.html");
     }
 
 }
