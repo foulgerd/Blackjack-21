@@ -1,0 +1,263 @@
+<!-- Css !-->
+<link href="https://fonts.googleapis.com/css?family=Lato:100" rel="stylesheet" type="text/css">
+<link href="/assets/css/bootstrap.css" rel="stylesheet">
+<link href="/assets/css/blackjack.css" rel="stylesheet">
+
+<!-- This is a test commett !-->
+<!-- Javascript !-->
+<script type="text/javascript" src="/assets/webjars/jquery/2.1.3/jquery.js"></script>
+<script type="text/javascript" src="/assets/javascript/bootstrap.js"></script>
+
+<body>
+<div class="container">
+    <div class="row header">
+        <div class="col-lg-12 text-center">
+            <h1>Blackjack</h1>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <p class="pull-left">Terminal</p>
+            <div class="btn btn-info pull-right panel-button" data-toggle="modal" data-target="#rules">Rules</div>
+            <div class="btn btn-info pull-right panel-button" data-toggle="modal" data-target="#commands">Commands</div>
+            <div class="clearfix"></div>
+        </div>
+        <div class="panel-body">
+            Panel content
+        </div>
+    </div>
+
+
+</div>
+
+<!-- Rules Modal -->
+<div id="rules" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h3 class="modal-title">Blackjack Rules</h3>
+            </div>
+            <div class="modal-body">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- Commands Modal -->
+<div id="commands" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h3 class="modal-title">Terminal Commands</h3>
+            </div>
+            <div class="modal-body">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!--<script>
+
+    var game;
+
+    function display(game) {
+        console.log(game);
+
+        $('.counter').html(game['deck']['cards'].length);
+
+        $('.columnOfCards .cardLocation').html("");
+
+        $.each(game.cols[0], function (key, val) {
+            var color = null;
+            if(val.suit == "Hearts" || val.suit == "Diamonds" || val.suit == "Coins" || val.suit == "Swords"){
+                color = 'card-value-red';
+            }
+            else if(val.suit == "Clubs" || val.suit == "Spades" || val.suit == "Cups"){
+                color = 'card-value-black';
+            }
+            $('#column-0').append(
+                    $('<div class="card"></div>')
+                            .append(
+                                    $('<div class="'+ color +'"></div>').html(val.value + val.suit)
+
+            ));
+        });
+
+        $.each(game.cols[1], function (key, val) {
+            var color = null;
+            if(val.suit == "Hearts" || val.suit == "Diamonds" || val.suit == "Coins" || val.suit == "Swords"){
+                color = 'card-value-red';
+            }
+            else if(val.suit == "Clubs" || val.suit == "Spades" || val.suit == "Cups"){
+                color = 'card-value-black';
+            }
+            $('#column-1').append(
+                    $('<div class="card"></div>')
+                            .append(
+                                    $('<div class="'+ color +'"></div>').html(val.value + val.suit)
+
+                            ));
+        });
+
+        $.each(game.cols[2], function (key, val) {
+            var color = null;
+            if(val.suit == "Hearts" || val.suit == "Diamonds" || val.suit == "Coins" || val.suit == "Swords"){
+                color = 'card-value-red';
+            }
+            else if(val.suit == "Clubs" || val.suit == "Spades" || val.suit == "Cups"){
+                color = 'card-value-black';
+            }
+            $('#column-2').append(
+                    $('<div class="card"></div>')
+                            .append(
+                                    $('<div class="'+ color +'"></div>').html(val.value + val.suit)
+
+                            ));
+        });
+
+        $.each(game.cols[3], function (key, val) {
+            var color = null;
+            if(val.suit == "Hearts" || val.suit == "Diamonds" || val.suit == "Coins" || val.suit == "Swords"){
+                color = 'card-value-red';
+            }
+            else if(val.suit == "Clubs" || val.suit == "Spades" || val.suit == "Cups"){
+                color = 'card-value-black';
+            }
+            $('#column-3').append(
+                    $('<div class="card"></div>')
+                           .append(
+                                    $('<div class="'+ color +'"></div>').html(val.value + val.suit)
+
+                            ));
+        });
+    }
+
+
+    $.getJSON("http://localhost:8080/game", function (data) {
+        display(data);
+        game = data;
+    });
+
+    $("#dealButton").click(function () {
+        $( ".card" ).remove();
+        $.ajax({
+            type: "POST",
+            url: "/dealGame",
+            data: JSON.stringify(game),
+            success: function (data, status) {
+                console.log("Data: " + data + "\nStatus: " + status);
+                game = data;
+                display(data);
+            },
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+        });
+    });
+
+
+    function removeCard(colNumber) {
+        $.ajax({
+            type: "POST",
+            url: "/removeCard/" + colNumber,
+            data: JSON.stringify(game),
+            success: function (data, status) {
+                console.log("Data: " + data + "\nStatus: " + status);
+                game = data;
+                display(data);
+            },
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+        });
+
+    }
+
+     $("#resetButton").click(function () { 
+        $('.card').remove();
+        $.ajax({
+            type: "GET",
+            url: "/game",
+            data: JSON.stringify(game),
+            success: function (data, status) {
+                console.log("Data: " + data + "\nStatus: " + status);
+                game = data;
+                display(data);
+            },
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+        });
+    });
+
+    $("#Remove1").click(function () {
+        $('.card').remove();
+        removeCard(0);
+    });
+    $("#Remove2").click(function () {
+        $('.card').remove();
+        removeCard(1);
+    });
+    $("#Remove3").click(function () {
+        $('.card').remove();
+        removeCard(2);
+    });
+    $("#Remove4").click(function () {
+        $('.card').remove();
+        removeCard(3);
+    });
+
+    $("#moveButton").click(function () {
+        $('.card').remove();
+        var colFrom = $("#from_col").val()-1;
+        var colTo = $("#to_col").val()-1;
+        $.ajax({
+            type: "POST",
+            url: "/moveCard/" + colFrom + "/" + colTo,
+            data: JSON.stringify(game),
+            success: function (data, status) {
+                console.log("Data: " + data + "\nStatus: " + status);
+                game = data;
+                display(data);
+            },
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+        });
+    });
+
+    $("#deckButton").click(function () { 
+    $('.card').remove();
+    $.ajax({
+        type: "POST",
+        url: "/deckType/es",
+        data: JSON.stringify(game),
+        success: function (data, status) {
+            console.log("Data: " + data + "\nStatus: " + status);
+            game = data;
+            display(data);
+        },
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+    });
+});
+
+
+
+</script>-->
+
+
+</body>
+</html>
