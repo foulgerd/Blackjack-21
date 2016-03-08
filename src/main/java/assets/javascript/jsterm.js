@@ -12,7 +12,7 @@ var jsterm = jsterm || {};
  * Holds the current game state
  * @type {Gamestate Object}
  */
-jsterm.gamestate;
+jsterm.gamestate = null;
 
 /**
  * Hold the counter of rows
@@ -32,8 +32,12 @@ jsterm.init = 0;
 $(function () {
     var string;
     if (jsterm.init == 0) {
-        jsterm.initialize();
+        $.getJSON("http://localhost:8080/game", function (data) {
+            jsterm.gamestate = data;
+            jsterm.initialize();
+        });
     }
+
 
     $(window).keyup(function (event) {
 
@@ -43,27 +47,33 @@ $(function () {
         // removes the cursor from the current line
         jsterm.removeCursor();
 
-        switch(event.keyCode){
+        switch (event.keyCode) {
             case 8: // Delete key
                 string = jsterm.delete();
+
                 break;
             case 46: // Delete Key
                 string = jsterm.delete();
+
                 break;
             case 16: // Shift Key
                 string = jsterm.delete();
+
                 break;
             case 13: // Return Key
                 jsterm.command();
-
                 string = jsterm.return();
+
                 break;
             default: // Anything else
                 string = jsterm.insert(char);
+
         }
 
+        if (string != null)
         // Prints the screen.
-        jsterm.print(string);
+            jsterm.print(string);
+
 
     });
 
@@ -140,31 +150,26 @@ jsterm.removeCursor = function () {
 jsterm.command = function () {
     var row = $('#row-' + jsterm.count).html();
     var commandArray = row.split(" ");
-    if (commandArray.length > 2) {
 
-        if (!commandArray[1].localeCompare("HIT")) {
-            alert("Command: HIT");
-        }
-        else if (!commandArray[1].localeCompare("STAY")) {
-            alert("Command: STAY");
-        }
-        else if (!commandArray[1].localeCompare("DOUBLEDOWN")) {
-            alert("Command: Double Down");
-        }
-        else if(!commandArray[1].localeCompare("SPLIT")){
-            alert("Command: SPLIT")
-        }
-        else {
-            //alert("Error: Not a command");
-            jsterm.error("Error: No a valid command.")
-        }
+    if (!commandArray[1].localeCompare("HIT")) {
+        jsterm.hit(0, 0);
+    }
+    else if (!commandArray[1].localeCompare("STAY")) {
+        jsterm.stay();
+    }
+    else if (!commandArray[1].localeCompare("DOUBLEDOWN")) {
+        jsterm.doubledown();
+    }
+    else if (!commandArray[1].localeCompare("SPLIT")) {
+        jsterm.split();
+    }
+    else if (!commandArray[1].localeCompare("BET")) {
+        jsterm.bet();
     }
     else {
-        //alert("Error: Command not entered.");
-        jsterm.error("Error: Command not entered.");
+        //alert("Error: Not a command");
+        jsterm.error("Error: No a valid command.")
     }
-
-    console.log(commandArray);
 
 };
 
@@ -173,28 +178,102 @@ jsterm.command = function () {
  * @param split
  * @param hand
  */
-jsterm.hit = function(split, hand){
-    // make ajax call to "HIT"
+jsterm.hit = function (split, hand) {
+    console.log(jsterm.gamestate);
+    $.ajax({
+        type: "POST",
+        url: "/hit",
+        async: false,
+        data: JSON.stringify(jsterm.gamestate),
+        success: function (data, status) {
+            jsterm.gamestate = data;
+
+        },
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+    });
+    jsterm.display();
 };
 
 /**
  * Makes an ajax call to the "STAY" route
  */
-jsterm.stay = function(){
-    // make ajax call to "STAY"
+jsterm.stay = function () {
+    console.log(jsterm.gamestate);
+    $.ajax({
+        type: "POST",
+        url: "/stay",
+        async: false,
+        data: JSON.stringify(jsterm.gamestate),
+        success: function (data, status) {
+            jsterm.gamestate = data;
+
+        },
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+    });
+    jsterm.display();
 };
 
 /**
  * Makes an ajax call to the "DOUBLEDOWN" route
  */
-jsterm.doubledown = function(){
+jsterm.doubledown = function () {
+    console.log(jsterm.gamestate);
+    $.ajax({
+        type: "POST",
+        url: "/doubledown",
+        async: false,
+        data: JSON.stringify(jsterm.gamestate),
+        success: function (data, status) {
+            jsterm.gamestate = data;
 
+        },
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+    });
+    jsterm.display();
 };
 
 /**
  * Makes an ajax call to the "SPLIT" route
  */
-jsterm.spit = function(){
+jsterm.split = function () {
+    console.log(jsterm.gamestate);
+    $.ajax({
+        type: "POST",
+        url: "/split",
+        async: false,
+        data: JSON.stringify(jsterm.gamestate),
+        success: function (data, status) {
+            jsterm.gamestate = data;
+
+        },
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+    });
+    jsterm.display();
+
+};
+
+/**
+ * Makes an ajax call to the "BET" route
+ */
+jsterm.bet = function () {
+    console.log(jsterm.gamestate);
+    $.ajax({
+        type: "POST",
+        url: "/bet",
+        async: false,
+        data: JSON.stringify(jsterm.gamestate),
+        success: function (data, status) {
+            jsterm.gamestate = data;
+
+        },
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+    });
+    jsterm.display();
 
 };
 
@@ -202,10 +281,20 @@ jsterm.spit = function(){
  * Displays a given error message.
  * @param error
  */
-jsterm.error = function(error){
+jsterm.error = function (error) {
     $('#terminal').append(
         $('<div class="error"></div>').html(error)
     );
+};
+
+jsterm.display = function () {
+    for (var k in jsterm.gamestate) {
+        if (jsterm.gamestate.hasOwnProperty((k))) {
+            $('#terminal').append(
+                $('<div></div>').html("Key is " + k + ", value is " + jsterm.gamestate[k])
+            );
+        }
+    }
 };
 
 
