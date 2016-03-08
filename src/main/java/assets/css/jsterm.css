@@ -1,0 +1,71 @@
+@font-face {
+    font-family: 'cousine';
+    src: url('../fonts/cousine-regular-webfont.eot');
+    src: url('../fonts/cousine-regular-webfont.eot?#iefix') format('embedded-opentype'),
+    url('../fonts/cousine-regular-webfont.woff2') format('woff2'),
+    url('../fonts/cousine-regular-webfont.woff') format('woff'),
+    url('../fonts/cousine-regular-webfont.ttf') format('truetype'),
+    url('../fonts/cousine-regular-webfont.svg#cousine') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+
+#terminal {
+    /*background-color: #000000;
+    color: #ffffff;*/
+    min-height: calc(100% - 350px);
+    max-height:100%;
+    font-family: 'cousine';
+
+}
+
+/* * * *  Blinking Curser * * * */
+.cursor {
+    font-weight: 100;
+    font-size: 1em;
+    color: #2E3D48;
+    -webkit-animation: 1s blink step-end infinite;
+    -moz-animation: 1s blink step-end infinite;
+    -ms-animation: 1s blink step-end infinite;
+    -o-animation: 1s blink step-end infinite;
+    animation: 1s blink step-end infinite;
+}
+
+@keyframes blink {
+    from, to {
+        color: transparent;
+    }
+    50% {
+        color: black;
+    }
+}
+
+@-webkit-keyframes blink {
+    from, to {
+        color: transparent;
+    }
+    50% {
+        color: black;
+    }
+}
+
+@-ms-keyframes blink {
+    from, to {
+        color: transparent;
+    }
+    50% {
+        color: black;
+    }
+}
+
+@-o-keyframes blink {
+    from, to {
+        color: transparent;
+    }
+    50% {
+        color: black;
+    }
+}
+
