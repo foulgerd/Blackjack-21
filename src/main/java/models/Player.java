@@ -15,7 +15,7 @@ public class Player extends User {
     }
 
     public void setBet(int amount){
-        if(amount <= getMoney()) {
+        if(amount <= getMoney() && amount >=2) {
             Bet = amount;
         }
     }
