@@ -26,4 +26,33 @@ public class testDeck {
         //Assert
         assertEquals(52, d.cards.size());
     }
+
+    @Test
+    public void testShuffle() {
+        //Arrange
+        Deck unshuffled = new Deck();
+        Deck shuffled = new Deck();
+
+        //Act
+        unshuffled.build();
+        shuffled.build();
+        shuffled.shuffle();
+
+        //Assert
+        assertNotEquals(shuffled, unshuffled);
+    }
+
+    @Test
+    public void testDeal() {
+        //Arrange
+        Deck d = new Deck();
+        Card c = null;
+
+        //Act
+        d.build();
+        c = d.deal();
+
+        //Test
+        assertNotNull(c);
+    }
 }
