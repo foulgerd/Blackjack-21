@@ -9,7 +9,7 @@ public class Player extends User {
     private int Split;
 
     public Player(){
-        Money = 200;
+        Money = 100;
         Bet = 2;
         Split = 0;
     }

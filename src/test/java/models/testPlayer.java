@@ -20,17 +20,17 @@ public class testPlayer {
         Player p = new Player();
 
         //Check original amount
-        assertEquals(200, p.getMoney());
+        assertEquals(100, p.getMoney());
 
         //Add to money
         p.winBet();
-        assertEquals(202, p.getMoney());
+        assertEquals(102, p.getMoney());
     }
 
     @Test
     public void testMoney(){
         Player p = new Player();
-        assertEquals(200, p.getMoney());
+        assertEquals(100, p.getMoney());
     }
 
     @Test
@@ -43,15 +43,15 @@ public class testPlayer {
         assertEquals(p2.getBet(), p.getBet());
 
         //User-defined bet above amount on hand
-        p2.setBet(210);
+        p2.setBet(110);
         assertEquals(p2.getBet(), p.getBet());
 
         //User-defined bet at amount on hand
-        p2.setBet(200);
+        p2.setBet(100);
         assertNotEquals(p2.getBet(), p.getBet());
 
         //User-defined bet below amount on hand
-        p2.setBet(187);
+        p2.setBet(87);
         assertNotEquals(p2.getBet(), p.getBet());
     }
 
