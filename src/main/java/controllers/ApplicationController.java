@@ -16,6 +16,7 @@
 
 package controllers;
 
+import models.Test;
 import ninja.Context;
 import ninja.Result;
 import ninja.Results;
@@ -31,8 +32,50 @@ public class ApplicationController {
         return Results.html();
     }
 
-    public Result acesUp() {
-        return Results.html().template("views/AcesUp/AcesUp.flt.html");
+    public Result blackjack() {
+        return Results.html().template("views/Blackjack/Blackjack.flt.html");
     }
+
+    public Result gameGet(){
+        Test t = new Test();
+
+        return Results.json().render(t);
+    }
+
+    public Result hitPOST(Context context, Test t){
+        if(context.getRequestPath().contains("hit")){
+            t.getHit();
+        }
+        return Results.json().render(t);
+    }
+
+    public Result stayPOST(Context context, Test t){
+        if(context.getRequestPath().contains("stay")){
+            t.getStay();
+        }
+        return Results.json().render(t);
+    }
+
+    public Result splitPOST(Context context, Test t){
+        if(context.getRequestPath().contains("split")){
+            t.getSpit();
+        }
+        return Results.json().render(t);
+    }
+
+    public Result betPOST(Context context, Test t){
+        if (context.getRequestPath().contains("bet")) {
+            t.getBet();
+        }
+        return Results.json().render(t);
+    }
+
+    public Result doubledownPOST(Context context, Test t){
+        if(context.getRequestPath().contains("doubledown")){
+            t.getDoubleDown();
+        }
+        return Results.json().render(t);
+    }
+
 
 }

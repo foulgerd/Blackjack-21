@@ -1,0 +1,54 @@
+body, html {
+    margin: 0px;
+    padding: 0px;
+    height: 100%;
+    font-family:'Lato';
+}
+
+h1 {
+    font-size: 96px;
+
+}
+
+h2 {
+    font-size: 84px;
+}
+
+h3 {
+    font-size: 72px;
+}
+
+h4 {
+    font-size: 60px;
+}
+
+h5 {
+    font-size: 48px;
+}
+
+h6 {
+    font-size: 36px;
+}
+p{
+    font-size: 24px;
+    font-weight: bold;
+}
+ol li{
+    font-size: 24px;
+}
+
+body .modal-dialog {
+    width: 60%;
+}
+
+.panel-button{
+    margin: 5px;
+}
+
+.error{
+    color:red;
+}
+
+
+
+
