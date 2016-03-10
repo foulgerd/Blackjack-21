@@ -16,7 +16,8 @@
 
 package controllers;
 
-import models.Test;
+
+import models.Game;
 import ninja.Context;
 import ninja.Result;
 import ninja.Results;
@@ -37,12 +38,18 @@ public class ApplicationController {
     }
 
     public Result gameGet(){
-        Test t = new Test();
+        Game g = new Game();
+        g.dealer.deck.shuffle();
+        g.player.takeCard(g.dealer.deck.deal());
+        g.dealer.takeCard(g.dealer.deck.deal());
+        g.player.takeCard(g.dealer.deck.deal());
+        g.dealer.takeCard(g.dealer.deck.deal());
 
-        return Results.json().render(t);
+
+        return Results.json().render(g);
     }
 
-    public Result hitPOST(Context context, Test t){
+    /*public Result hitPOST(Context context, Test t){
         if(context.getRequestPath().contains("hit")){
             t.getHit();
         }
@@ -75,7 +82,7 @@ public class ApplicationController {
             t.getDoubleDown();
         }
         return Results.json().render(t);
-    }
+    }*/
 
 
 }
