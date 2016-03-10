@@ -15,6 +15,7 @@ public class Card {
     public Card(){
 
     }
+
     @JsonCreator
     public Card(@JsonProperty("value") char value, @JsonProperty("suit") char suit) {
         this.value = value;
