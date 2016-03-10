@@ -26,10 +26,6 @@ public class Player extends User {
         }
     }
 
-    public void setSplit(int flag){
-        split = flag;
-    }
-
     public void takeCard(Card c){
         hand.add(c);
     }
@@ -39,13 +35,12 @@ public class Player extends User {
     }
 
     public void split(){
-        setSplit(1);
+        split = 1;
         Card temp;
 
         temp = hand.get(hand.size()-1);
         splithand.add(temp);
         hand.remove(hand.size()-1);
-        setBet(2 * bet);
     }
 
     public void loseBet(){
