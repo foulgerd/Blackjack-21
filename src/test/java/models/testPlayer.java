@@ -122,6 +122,14 @@ public class testPlayer {
 
     }
 
+    @Test
+    public void testDoubleDown(){
+        Player p = new Player();
+        p.setBet(250);
+        p.doubleDown();
+        assertNotEquals(500, p.bet);
+    }
+
 
 
 }
