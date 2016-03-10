@@ -20,4 +20,8 @@ public class Game {
             player.takeCardSplit(dealer.deck.deal());
         }
     }
+
+    public void SplitPlayerHand(){
+        player.split();
+    }
 }
