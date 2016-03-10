@@ -6,7 +6,8 @@ import java.util.ArrayList;
  * Created by nathan on 3/8/16.
  */
 public class Player extends User {
-    public java.util.List<Card> hand = new ArrayList<>();
+
+    //public java.util.List<Card> hand = new ArrayList<>();
     public java.util.List<Card> splithand = new ArrayList<>();
     private int Bet;
     private int Money;
