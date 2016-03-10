@@ -24,4 +24,8 @@ public class Game {
     public void SplitPlayerHand(){
         player.split();
     }
+
+    public void Stay(){
+        dealer.play();
+    }
 }
