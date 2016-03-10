@@ -198,7 +198,7 @@ jsterm.command = function () {
     else if (!commandArray[1].localeCompare("BET")){
         if((commandArray.length == 3) && !jsterm.betFlag) {
             if(jsterm.gamestate['player']['money'] > parseInt(commandArray[2])) {
-                jsterm.bet();
+                jsterm.bet(parseInt(commandArray[2]));
                 jsterm.betFlag = 1;
             }
             else{
@@ -298,10 +298,10 @@ jsterm.split = function () {
 /**
  * Makes an ajax call to the "BET" route
  */
-jsterm.bet = function () {
+jsterm.bet = function (amount) {
     $.ajax({
         type: "POST",
-        url: "/bet",
+        url: "/bet/" + amount,
         async: false,
         data: JSON.stringify(jsterm.gamestate),
         success: function (data, status) {
