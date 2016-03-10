@@ -124,12 +124,41 @@ public class testPlayer {
 
     @Test
     public void testDoubleDown(){
+        //Arrange
         Player p = new Player();
-        p.setBet(250);
+
+        //Act
+        p.setBet(50);
         p.doubleDown();
-        assertNotEquals(500, p.bet);
+
+        //Assert
+        assertEquals(100, p.bet);
     }
 
+    @Test
+    public void testWinBet(){
+        //Arrange
+        Player p = new Player();
+        p.bet = 50;
 
+        //Act
+        p.winBet();
+
+        //Assert
+        assertEquals(150, p.money);
+    }
+
+    @Test
+    public void testLoseBet(){
+        //Arrange
+        Player p = new Player();
+        p.bet = 50;
+
+        //Act
+        p.loseBet();
+
+        //Assert
+        assertEquals(50, p.money);
+    }
 
 }
