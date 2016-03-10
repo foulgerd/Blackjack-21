@@ -70,5 +70,58 @@ public class testPlayer {
         assertEquals(p.getMoney(),p2.getMoney());
     }
 
+    @Test
+    public void testSplit(){
+        Player p = new Player();
+        Card c = new Card('T','D');
+        Card c2 = new Card('T','H');
+
+        //Set originl bet amount
+        p.setBet(20);
+        assertEquals(20, p.getBet());
+
+        //Take card +1 to hand size
+        p.takeCard(c);
+        assertNotNull(p.hand);
+
+        //Take card +1 to hand size, hand.size() = 2
+        p.takeCard(c2);
+        assertEquals(2,p.hand.size());
+
+        //Check that each card in hand is unique
+        assertNotEquals(p.hand.get(p.hand.size()-1), p.hand.get(p.hand.size()-2));
+
+        //Check that values of both cards are the same
+        assertEquals(p.hand.get(p.hand.size()-1).value, p.hand.get(p.hand.size()-2).value);
+
+        //Check split flag to ensure it's not set
+        assertEquals(0,p.getSplit());
+
+        //Split the hand
+        p.split();
+
+        //Check that split flag was set
+        assertEquals(1,p.getSplit());
+
+        //Check that bet was doubled
+        assertEquals(40,p.getBet());
+
+        //hand should be of size 1
+        assertEquals(1,p.hand.size());
+
+        //Check that splithand exists
+        assertNotNull(p.splithand);
+
+        //splithand is of size 1
+        assertEquals(1,p.splithand.size());
+
+        //splithand now holds one card that was originally in hand
+        assertEquals(p.hand.get(p.hand.size()-1).value, p.splithand.get(p.splithand.size()-1).value);
+
+
+
+    }
+
+
 
 }
