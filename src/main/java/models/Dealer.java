@@ -1,5 +1,7 @@
 package models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 /**
  * Created by nathan on 3/8/16.
  * WILL BE FINISHED LATER
@@ -17,7 +19,7 @@ public class Dealer extends User {
     }
 
     public void play() {
-        while (getScore() < 17) {
+        while (calculateScore() < 17) {
             takeCard(deck.deal());
         }
     }
