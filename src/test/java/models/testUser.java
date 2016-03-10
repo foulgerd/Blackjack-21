@@ -30,9 +30,11 @@ public class testUser {
     public void testTakeCard() {
         //Arrange
         User u = new User();
+        Deck deck = new Deck();
 
         //Act
-        u.takeCard();
+        deck.build();
+        u.takeCard(deck.deal());
 
         //Assert
         assertEquals(u.hand.size(), 0);
@@ -58,28 +60,28 @@ public class testUser {
         // Test KD = 10
         p.takeCard(cards.get(0)); // Adding card to hand
         assertEquals("KD", cards.get(0).concatenate());
-        assertEquals(10, p.getScore()); // Check score of the card
+        assertEquals(10, p.calculateScore()); // Check score of the card
         cards.remove(0); // Remove card from list
         p.hand.remove(0); // clearing hand
 
         // Test QD = 10
         p.takeCard(cards.get(0));
         assertEquals("QD", cards.get(0).concatenate());
-        assertEquals(10, p.getScore());
+        assertEquals(10, p.calculateScore());
         cards.remove(0);
         p.hand.remove(0);
 
         // Test JD = 10
         p.takeCard(cards.get(0));
         assertEquals("JD", cards.get(0).concatenate());
-        assertEquals(10, p.getScore());
+        assertEquals(10, p.calculateScore());
         cards.remove(0);
         p.hand.remove(0);
 
         // Test TD = 10
         p.takeCard(cards.get(0));
         assertEquals("TD", cards.get(0).concatenate());
-        assertEquals(10, p.getScore());
+        assertEquals(10, p.calculateScore());
         cards.remove(0);
         p.hand.remove(0);
 
@@ -93,7 +95,7 @@ public class testUser {
             cards.remove(0);
 
             // Checking value;
-            assertEquals(i, p.getScore());
+            assertEquals(i, p.calculateScore());
 
             // Clearing hand
             p.hand.remove(0);
@@ -103,13 +105,13 @@ public class testUser {
         // Test AD = 11
         p.takeCard(cards.get(0));
         assertEquals("AD", cards.get(0).concatenate());
-        assertEquals(11, p.getScore());
+        assertEquals(11, p.calculateScore());
         cards.remove(0);
         p.hand.remove(0);
 
         // Check score for a bad card
         p.takeCard(badCard);
-        assertEquals(0, p.getScore());
+        assertEquals(0, p.calculateScore());
 
     }
 
@@ -124,7 +126,7 @@ public class testUser {
         p.takeCard(c);
 
         // Assert
-        assertEquals(12, p.getScore());
+        assertEquals(12, p.calculateScore());
 
     }
 }

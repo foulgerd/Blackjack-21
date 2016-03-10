@@ -10,7 +10,7 @@ public class testDealer {
     @Test
     public void testDealer() {
         //Arrange
-        Dealer dealer = new Dealer();
+        User dealer = new Dealer();
 
         //Assert
         assertNotNull(dealer);
@@ -19,7 +19,7 @@ public class testDealer {
     @Test
     public void testDealerTakeCard() {
         //Arrange
-        Dealer dealer = new Dealer();
+        User dealer = new Dealer();
         Deck d = new Deck();
 
         //Act
@@ -31,15 +31,28 @@ public class testDealer {
     }
 
     @Test
+    public void testDealerScore() {
+        //Arrange
+        Dealer dealer = new Dealer();
+        int score;
+
+        //Act
+        score = dealer.calculateScore();
+
+        assertEquals(0, score);
+    }
+
+    @Test
     public void testDealerPlay() {
         //Arrange
         Dealer dealer = new Dealer();
-        Deck d = new Deck();
+        int score;
 
         //Act
-        d.build();
         dealer.play();
+        score = dealer.calculateScore();
 
-        //assertTrue(17 <= dealer.getTotalValue());
+        assertTrue(17 <= dealer.calculateScore());
+        assertTrue(score >= 17);
     }
 }

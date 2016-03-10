@@ -15,11 +15,23 @@ var jsterm = jsterm || {};
 jsterm.gamestate = null;
 
 /**
+ * Hold a flag for if the user raised the bet.
+ * @type {null}
+ */
+jsterm.betFlag = 0;
+
+/**
  * Hold the counter of rows
  * @type {number}
  */
-
 jsterm.count = 0;
+
+/**
+ * Hold the counter of displays
+ * @type {number}
+ */
+jsterm.displayCount = 0;
+
 /**
  * Flag to determine if terminal has been initialize.
  * @type {number}
@@ -33,7 +45,9 @@ $(function () {
     var string;
     if (jsterm.init == 0) {
         $.getJSON("http://localhost:8080/game", function (data) {
+            console.log(data);
             jsterm.gamestate = data;
+            jsterm.display();
             jsterm.initialize();
         });
     }
@@ -41,7 +55,7 @@ $(function () {
 
     $(window).keyup(function (event) {
 
-        // get the charator from the keyboard
+        // get the character from the keyboard
         var char = String.fromCharCode(event.keyCode);
 
         // removes the cursor from the current line
@@ -63,6 +77,9 @@ $(function () {
             case 13: // Return Key
                 jsterm.command();
                 string = jsterm.return();
+
+                // Writing game state to log
+                console.log(jsterm.gamestate);
 
                 break;
             default: // Anything else
@@ -90,6 +107,7 @@ jsterm.initialize = function () {
     );
 
 };
+
 /**
  * Updates the terminal screen
  * @param string
@@ -147,12 +165,26 @@ jsterm.removeCursor = function () {
     $('.cursor').remove();
 };
 
+
+/**
+ * Check if user input is a valid command
+ * Check if there is the right about of arguments.
+ */
 jsterm.command = function () {
     var row = $('#row-' + jsterm.count).html();
     var commandArray = row.split(" ");
 
     if (!commandArray[1].localeCompare("HIT")) {
-        jsterm.hit(0, 0);
+        if ((commandArray.length == 3) && jsterm.gamestate['player']['split']) {
+            jsterm.hit(commandArray[2]);
+        }
+        else if ((commandArray.length == 3) && !jsterm.gamestate['player']['split']) {
+            jsterm.error("Error: You have not split you hand.");
+        }
+        else {
+            jsterm.hit('1');
+        }
+
     }
     else if (!commandArray[1].localeCompare("STAY")) {
         jsterm.stay();
@@ -163,8 +195,19 @@ jsterm.command = function () {
     else if (!commandArray[1].localeCompare("SPLIT")) {
         jsterm.split();
     }
-    else if (!commandArray[1].localeCompare("BET")) {
-        jsterm.bet();
+    else if (!commandArray[1].localeCompare("BET")){
+        if((commandArray.length == 3) && !jsterm.betFlag) {
+            if(jsterm.gamestate['player']['money'] > parseInt(commandArray[2])) {
+                jsterm.bet(parseInt(commandArray[2]));
+                jsterm.betFlag = 1;
+            }
+            else{
+                jsterm.error("Error: You dont have that much money to bet.");
+            }
+        }
+        else{
+            jsterm.error("Error: You did specify an amout or have changed your bet amount. ")
+        }
     }
     else {
         //alert("Error: Not a command");
@@ -178,16 +221,14 @@ jsterm.command = function () {
  * @param split
  * @param hand
  */
-jsterm.hit = function (split, hand) {
-    console.log(jsterm.gamestate);
+jsterm.hit = function (hand) {
     $.ajax({
         type: "POST",
-        url: "/hit",
+        url: "/hit/" + hand,
         async: false,
         data: JSON.stringify(jsterm.gamestate),
         success: function (data, status) {
             jsterm.gamestate = data;
-
         },
         contentType: "application/json; charset=utf-8",
         dataType: "json",
@@ -199,13 +240,13 @@ jsterm.hit = function (split, hand) {
  * Makes an ajax call to the "STAY" route
  */
 jsterm.stay = function () {
-    console.log(jsterm.gamestate);
     $.ajax({
         type: "POST",
         url: "/stay",
         async: false,
         data: JSON.stringify(jsterm.gamestate),
         success: function (data, status) {
+
             jsterm.gamestate = data;
 
         },
@@ -219,7 +260,6 @@ jsterm.stay = function () {
  * Makes an ajax call to the "DOUBLEDOWN" route
  */
 jsterm.doubledown = function () {
-    console.log(jsterm.gamestate);
     $.ajax({
         type: "POST",
         url: "/doubledown",
@@ -239,7 +279,6 @@ jsterm.doubledown = function () {
  * Makes an ajax call to the "SPLIT" route
  */
 jsterm.split = function () {
-    console.log(jsterm.gamestate);
     $.ajax({
         type: "POST",
         url: "/split",
@@ -259,11 +298,10 @@ jsterm.split = function () {
 /**
  * Makes an ajax call to the "BET" route
  */
-jsterm.bet = function () {
-    console.log(jsterm.gamestate);
+jsterm.bet = function (amount) {
     $.ajax({
         type: "POST",
-        url: "/bet",
+        url: "/bet/" + amount,
         async: false,
         data: JSON.stringify(jsterm.gamestate),
         success: function (data, status) {
@@ -287,15 +325,78 @@ jsterm.error = function (error) {
     );
 };
 
+/**
+ * Displays the current gamestate
+ */
 jsterm.display = function () {
-    for (var k in jsterm.gamestate) {
-        if (jsterm.gamestate.hasOwnProperty((k))) {
-            $('#terminal').append(
-                $('<div></div>').html("Key is " + k + ", value is " + jsterm.gamestate[k])
-            );
-        }
-    }
+    // build unique id
+    var id = 'display-' + jsterm.displayCount;
+
+    // Create div that information will be appended too.
+    $('#terminal').append(
+        $('<div class="' + id + '"></div>')
+    );
+
+    // creating Dealer display
+    jsterm.dealerDisplay(id);
+
+    // Creating player display
+    jsterm.playerDisplay(id);
+
+    jsterm.displayCount++;
+
+
 };
 
+/**
+ * Build the dealer display
+ * @param id
+ */
+jsterm.dealerDisplay = function (id) {
+    var display = "";
+    var hideFlag = 1;
+    display += 'Dealer: ';
+
+    // Adding cards to the dealer display hiding the first card.
+    for (var k in jsterm.gamestate['dealer']['hand']) {
+        if (hideFlag) {
+            display += '[ ]';
+            hideFlag = 0;
+        }
+        else {
+            display += '[' + jsterm.gamestate['dealer']['hand'][k].value + jsterm.gamestate['dealer']['hand'][k].suit + ']';
+        }
+    }
+    // Appending the dealer display.
+    $('.' + id).append(
+        $('<div></div>').html(display)
+    );
+};
+
+jsterm.playerDisplay = function (id) {
+    var display = "";
+    display += 'Player: ';
+
+    // Adding cards to the dealer display hiding the first card.
+    for (var k in jsterm.gamestate['player']['hand']) {
+        display += '[' + jsterm.gamestate['player']['hand'][k].value + jsterm.gamestate['player']['hand'][k].suit + ']';
+
+    }
+
+    display += '<br/>';
+
+    // Formatting Money
+    display += "Money: $" + jsterm.gamestate['player']['money'];
+
+    display += '<br/>';
+
+    // Formatting Bet
+    display += "Current Bet: $" + jsterm.gamestate['player']['bet'];
+
+    $('.' + id).append(
+        $('<div></div>').html(display)
+    );
+
+};
 
 

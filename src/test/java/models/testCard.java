@@ -32,4 +32,11 @@ public class testCard {
         assertEquals("TD",s);
     }
 
+    @Test
+    public void testEmptyCard(){
+        Card c = new Card();
+
+        assertNotNull(c);
+    }
+
 }
