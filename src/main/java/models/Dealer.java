@@ -23,6 +23,4 @@ public class Dealer extends User {
             takeCard(deck.deal());
         }
     }
-
-
 }
