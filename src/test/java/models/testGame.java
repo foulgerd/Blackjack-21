@@ -18,11 +18,27 @@ public class testGame {
 
         // Act
 
+        // Assert
         assertNotNull(g);
         assertNotNull(g.player);
         assertNotNull(g.dealer);
         assertNotNull(g.dealer.deck);
         assertNotEquals(0,g.dealer.deck.cards.size());
+
+    }
+
+    @Test
+    public void testGameHit(){
+        // Arrange
+        Game g = new Game();
+
+        // Act
+        g.Hit('1'); // testing hit for main hand.
+        g.Hit('2'); // Testing hit for second hand.
+
+        // Assert
+        assertEquals("KD", g.player.hand.get(0).concatenate());
+        assertEquals("QD", g.player.splithand.get(0).concatenate());
 
     }
 
