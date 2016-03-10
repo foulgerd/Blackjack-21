@@ -11,64 +11,64 @@ public class User {
     public void takeCard(Card c) { };
 
     public int getScore() {
-        int score = 0;
+        int temp = 0;
         int aceFlag = 0;
         for(Card c : hand){
             switch(c.value){
                 case 'A':
-                    score += 11;
+                    temp += 11;
                     aceFlag = 1;
                     break;
                 case '2':
-                    score += 2;
+                    temp += 2;
                     break;
                 case '3':
-                    score += 3;
+                    temp += 3;
                     break;
                 case '4':
-                    score += 4;
+                    temp += 4;
                     break;
                 case '5':
-                    score += 5;
+                    temp += 5;
                     break;
                 case '6':
-                    score += 6;
+                    temp += 6;
                     break;
                 case '7':
-                    score += 7;
+                    temp += 7;
                     break;
                 case '8':
-                    score += 8;
+                    temp += 8;
                     break;
                 case '9':
-                    score += 9;
+                    temp += 9;
                     break;
                 case 'T':
-                    score += 10;
+                    temp += 10;
                     break;
                 case 'J':
-                    score += 10;
+                    temp += 10;
                     break;
                 case 'Q':
-                    score += 10;
+                    temp += 10;
                     break;
                 case 'K':
-                    score += 10;
+                    temp += 10;
                     break;
                 default:
-                    score += 0;
+                    temp += 0;
             }
         }
 
-        // If the score is over the 21
+        // If the temp is over the 21
         // and there is one ace, remove 11 and add 1
 
-        if(score > 21 && aceFlag == 1){
-            score -= 11;
-            score += 1;
+        if(temp > 21 && aceFlag == 1){
+            temp -= 11;
+            temp += 1;
         }
 
-        return score;
+        return temp;
     }
 
 }

@@ -12,4 +12,8 @@ public class Game {
         dealer = new Dealer();
     }
 
+    public void Hit(){
+        player.takeCard(dealer.deck.deal());
+    }
+
 }
