@@ -12,7 +12,11 @@ public class Card {
     public char suit;
 
 
-    public Card( char value, char suit) {
+    public Card(){
+
+    }
+    @JsonCreator
+    public Card(@JsonProperty("value") char value, @JsonProperty("suit") char suit) {
         this.value = value;
         this.suit  = suit;
     }
