@@ -8,6 +8,7 @@ import java.util.Random;
  * Created by Devin on 3/7/2016.
  */
 public class Deck {
+
     public java.util.List<Card> cards = new ArrayList<>();
     public char[] Values = {'A', '2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K'};
     public char[] Suit = {'S', 'C', 'H', 'D'};

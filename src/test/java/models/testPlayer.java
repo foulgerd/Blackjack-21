@@ -20,17 +20,17 @@ public class testPlayer {
         Player p = new Player();
 
         //Check original amount
-        assertEquals(100, p.getMoney());
+        assertEquals(100, p.money);
 
         //Add to money
         p.winBet();
-        assertEquals(102, p.getMoney());
+        assertEquals(102, p.money);
     }
 
     @Test
     public void testMoney(){
         Player p = new Player();
-        assertEquals(100, p.getMoney());
+        assertEquals(100, p.money);
     }
 
     @Test
@@ -39,20 +39,20 @@ public class testPlayer {
         Player p2 = new Player();
 
         //Default bet
-        assertEquals(2, p.getBet());
-        assertEquals(p2.getBet(), p.getBet());
+        assertEquals(2, p.bet);
+        assertEquals(p2.bet, p.bet);
 
         //User-defined bet above amount on hand
         p2.setBet(110);
-        assertEquals(p2.getBet(), p.getBet());
+        assertEquals(p2.bet, p.bet);
 
         //User-defined bet at amount on hand
         p2.setBet(100);
-        assertNotEquals(p2.getBet(), p.getBet());
+        assertNotEquals(p2.bet, p.bet);
 
         //User-defined bet below amount on hand
         p2.setBet(87);
-        assertNotEquals(p2.getBet(), p.getBet());
+        assertNotEquals(p2.bet, p.bet);
     }
 
     @Test
@@ -63,11 +63,11 @@ public class testPlayer {
         //Check to see if winning increases money available
         p.setBet(20);
         p.winBet();
-        assertNotEquals(p.getMoney(),p2.getMoney());
+        assertNotEquals(p.money,p2.money);
 
         //Check to see if losing decreases money available
         p.loseBet();
-        assertEquals(p.getMoney(),p2.getMoney());
+        assertEquals(p.money,p2.money);
     }
 
     @Test
@@ -78,7 +78,7 @@ public class testPlayer {
 
         //Set originl bet amount
         p.setBet(20);
-        assertEquals(20, p.getBet());
+        assertEquals(20, p.bet);
 
         //Take card +1 to hand size
         p.takeCard(c);
@@ -95,16 +95,16 @@ public class testPlayer {
         assertEquals(p.hand.get(p.hand.size()-1).value, p.hand.get(p.hand.size()-2).value);
 
         //Check split flag to ensure it's not set
-        assertEquals(0,p.getSplit());
+        assertEquals(0,p.split);
 
         //Split the hand
         p.split();
 
         //Check that split flag was set
-        assertEquals(1,p.getSplit());
+        assertEquals(1,p.split);
 
         //Check that bet was doubled
-        assertEquals(40,p.getBet());
+        assertEquals(40,p.bet);
 
         //hand should be of size 1
         assertEquals(1,p.hand.size());

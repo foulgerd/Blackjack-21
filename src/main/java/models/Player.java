@@ -9,34 +9,25 @@ public class Player extends User {
 
     //public java.util.List<Card> hand = new ArrayList<>();
     public java.util.List<Card> splithand = new ArrayList<>();
-    private int Bet;
-    private int Money;
-    private int Split;
+    public int bet;
+    public int money;
+    public int split;
 
     public Player(){
-        Money = 100;
-        Bet = 2;
-        Split = 0;
+        money = 100;
+        bet = 2;
+        split = 0;
     }
 
-    public int getBet(){
-        return Bet;
-    }
-
-    public int getMoney(){
-        return Money;
-    }
-
-    public int getSplit() { return Split; }
 
     public void setBet(int amount){
-        if(amount <= getMoney() && amount >=2) {
-            Bet = amount;
+        if(amount <= money && amount >=2) {
+            bet = amount;
         }
     }
 
     public void setSplit(int flag){
-        Split = flag;
+        split = flag;
     }
 
     public void takeCard(Card c){
@@ -54,15 +45,15 @@ public class Player extends User {
         temp = hand.get(hand.size()-1);
         splithand.add(temp);
         hand.remove(hand.size()-1);
-        setBet(2 * getBet());
+        setBet(2 * bet);
     }
 
     public void loseBet(){
-        Money = Money - Bet;
+        money = money - bet;
     }
 
     public void winBet(){
-        Money = Money + Bet;
+        money = money + bet;
     }
 
 

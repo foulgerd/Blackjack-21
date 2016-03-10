@@ -1,11 +1,12 @@
 package models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 /**
  * Created by nathan on 3/8/16.
  * WILL BE FINISHED LATER
  */
 public class Dealer extends User {
-    private int score = 0;
     public Deck deck;
 
     Dealer() {
@@ -18,11 +19,10 @@ public class Dealer extends User {
     }
 
     public void play() {
-        while (score < 17) {
+        while (calculateScore() < 17) {
             takeCard(deck.deal());
-            score = getScore();
         }
     }
 
-    public int getTotalScore() { return score; }
+
 }
