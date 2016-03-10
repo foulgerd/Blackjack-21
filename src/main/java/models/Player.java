@@ -19,18 +19,9 @@ public class Player extends User {
         split = 0;
     }
 
-    public int getBet(){
-        return bet;
-    }
-
-    public int getMoney(){
-        return money;
-    }
-
-    public int getSplit() { return split; }
 
     public void setBet(int amount){
-        if(amount <= getMoney() && amount >=2) {
+        if(amount <= money && amount >=2) {
             bet = amount;
         }
     }
@@ -54,7 +45,7 @@ public class Player extends User {
         temp = hand.get(hand.size()-1);
         splithand.add(temp);
         hand.remove(hand.size()-1);
-        setBet(2 * getBet());
+        setBet(2 * bet);
     }
 
     public void loseBet(){

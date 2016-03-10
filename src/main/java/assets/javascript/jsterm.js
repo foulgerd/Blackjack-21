@@ -15,6 +15,12 @@ var jsterm = jsterm || {};
 jsterm.gamestate = null;
 
 /**
+ * Hold a flag for if the user raised the bet.
+ * @type {null}
+ */
+jsterm.betFlag = 0;
+
+/**
  * Hold the counter of rows
  * @type {number}
  */
@@ -189,8 +195,19 @@ jsterm.command = function () {
     else if (!commandArray[1].localeCompare("SPLIT")) {
         jsterm.split();
     }
-    else if (!commandArray[1].localeCompare("BET")) {
-        jsterm.bet();
+    else if (!commandArray[1].localeCompare("BET")){
+        if((commandArray.length == 3) && !jsterm.betFlag) {
+            if(jsterm.gamestate['player']['money'] > parseInt(commandArray[2])) {
+                jsterm.bet(parseInt(commandArray[2]));
+                jsterm.betFlag = 1;
+            }
+            else{
+                jsterm.error("Error: You dont have that much money to bet.");
+            }
+        }
+        else{
+            jsterm.error("Error: You did specify an amout or have changed your bet amount. ")
+        }
     }
     else {
         //alert("Error: Not a command");
@@ -281,10 +298,10 @@ jsterm.split = function () {
 /**
  * Makes an ajax call to the "BET" route
  */
-jsterm.bet = function () {
+jsterm.bet = function (amount) {
     $.ajax({
         type: "POST",
-        url: "/bet",
+        url: "/bet/" + amount,
         async: false,
         data: JSON.stringify(jsterm.gamestate),
         success: function (data, status) {
