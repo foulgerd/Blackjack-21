@@ -17,6 +17,12 @@ public class Card {
     public Card(@JsonProperty("value")char value, @JsonProperty("suit") char suit) {
         this.value = value;
         this.suit  = suit;
+    }
 
+    public String concatenate(){
+        String s = "";
+        s += value;
+        s += suit;
+        return s;
     }
 }
