@@ -20,7 +20,7 @@ public class testDeck {
         //Arrange
         Deck d = new Deck();
 
-        //Setup
+        //Act
         d.build();
 
         //Assert
