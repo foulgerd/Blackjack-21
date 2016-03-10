@@ -12,8 +12,13 @@ public class Game {
         dealer = new Dealer();
     }
 
-    public void Hit(){
-        player.takeCard(dealer.deck.deal());
+    public void Hit(char hand){
+        if(hand == '1'){
+            player.takeCard(dealer.deck.deal());
+        }
+        else if(hand == '2'){
+            player.takeCardSplit(dealer.deck.deal());
+        }
     }
 
 }

@@ -72,6 +72,9 @@ $(function () {
                 jsterm.command();
                 string = jsterm.return();
 
+                // Writing game state to log
+                console.log(jsterm.gamestate);
+
                 break;
             default: // Anything else
                 string = jsterm.insert(char);
@@ -166,7 +169,16 @@ jsterm.command = function () {
     var commandArray = row.split(" ");
 
     if (!commandArray[1].localeCompare("HIT")) {
-        jsterm.hit(0, 0);
+        if ((commandArray.length == 3) && jsterm.gamestate['player']['split']) {
+            jsterm.hit(commandArray[2]);
+        }
+        else if ((commandArray.length == 3) && !jsterm.gamestate['player']['split']) {
+            jsterm.error("Error: You have not split you hand.");
+        }
+        else {
+            jsterm.hit('1');
+        }
+
     }
     else if (!commandArray[1].localeCompare("STAY")) {
         jsterm.stay();
@@ -192,16 +204,14 @@ jsterm.command = function () {
  * @param split
  * @param hand
  */
-jsterm.hit = function (split, hand) {
-    console.log(jsterm.gamestate);
+jsterm.hit = function (hand) {
     $.ajax({
         type: "POST",
-        url: "/hit",
+        url: "/hit/" + hand,
         async: false,
         data: JSON.stringify(jsterm.gamestate),
         success: function (data, status) {
             jsterm.gamestate = data;
-
         },
         contentType: "application/json; charset=utf-8",
         dataType: "json",
@@ -213,13 +223,13 @@ jsterm.hit = function (split, hand) {
  * Makes an ajax call to the "STAY" route
  */
 jsterm.stay = function () {
-    console.log(jsterm.gamestate);
     $.ajax({
         type: "POST",
         url: "/stay",
         async: false,
         data: JSON.stringify(jsterm.gamestate),
         success: function (data, status) {
+
             jsterm.gamestate = data;
 
         },
@@ -233,7 +243,6 @@ jsterm.stay = function () {
  * Makes an ajax call to the "DOUBLEDOWN" route
  */
 jsterm.doubledown = function () {
-    console.log(jsterm.gamestate);
     $.ajax({
         type: "POST",
         url: "/doubledown",
@@ -253,7 +262,6 @@ jsterm.doubledown = function () {
  * Makes an ajax call to the "SPLIT" route
  */
 jsterm.split = function () {
-    console.log(jsterm.gamestate);
     $.ajax({
         type: "POST",
         url: "/split",
@@ -274,7 +282,6 @@ jsterm.split = function () {
  * Makes an ajax call to the "BET" route
  */
 jsterm.bet = function () {
-    console.log(jsterm.gamestate);
     $.ajax({
         type: "POST",
         url: "/bet",
@@ -306,7 +313,7 @@ jsterm.error = function (error) {
  */
 jsterm.display = function () {
     // build unique id
-    var id = 'display-' + jsterm.displayCount ;
+    var id = 'display-' + jsterm.displayCount;
 
     // Create div that information will be appended too.
     $('#terminal').append(
@@ -321,7 +328,6 @@ jsterm.display = function () {
 
     jsterm.displayCount++;
 
-    
 
 };
 
@@ -355,7 +361,7 @@ jsterm.playerDisplay = function (id) {
     display += 'Player: ';
 
     // Adding cards to the dealer display hiding the first card.
-    for (var k in jsterm.gamestate['dealer']['hand']) {
+    for (var k in jsterm.gamestate['player']['hand']) {
         display += '[' + jsterm.gamestate['player']['hand'][k].value + jsterm.gamestate['player']['hand'][k].suit + ']';
 
     }

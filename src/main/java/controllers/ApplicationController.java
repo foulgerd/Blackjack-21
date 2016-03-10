@@ -49,14 +49,14 @@ public class ApplicationController {
         return Results.json().render(g);
     }
 
-    /*public Result hitPOST(Context context, Test t){
+    public Result hitPOST(Context context, @PathParam("hand") char hand, Game g){
         if(context.getRequestPath().contains("hit")){
-            t.getHit();
+           g.Hit(hand);
         }
-        return Results.json().render(t);
+        return Results.json().render(g);
     }
 
-    public Result stayPOST(Context context, Test t){
+    /*public Result stayPOST(Context context, Test t){
         if(context.getRequestPath().contains("stay")){
             t.getStay();
         }
