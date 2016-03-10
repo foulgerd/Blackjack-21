@@ -42,25 +42,6 @@ public class testGame {
 
     }
 
-    @Test
-    public void testGameStay(){
-        //Arrange
-        Game g = new Game();
 
-        //Act
-        g.Hit('1');
-        g.Hit('1');
-
-        //Test that player hand is 2 before stay
-        assertEquals(2, g.player.hand.size());
-
-        g.Stay();
-
-        //Assert
-        //Test if player hand still equals two after stay
-        assertEquals(2, g.player.hand.size());
-        //Test if dealer's hand is greater than or equal to 2
-        assertTrue(g.dealer.hand.size() >= 2);
-    }
 
 }

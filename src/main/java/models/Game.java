@@ -20,8 +20,4 @@ public class Game {
             player.takeCardSplit(dealer.deck.deal());
         }
     }
-
-    public void Stay(){
-        dealer.play();
-    }
 }
