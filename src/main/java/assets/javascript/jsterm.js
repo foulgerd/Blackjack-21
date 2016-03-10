@@ -18,8 +18,14 @@ jsterm.gamestate = null;
  * Hold the counter of rows
  * @type {number}
  */
-
 jsterm.count = 0;
+
+/**
+ * Hold the counter of displays
+ * @type {number}
+ */
+jsterm.displayCount = 0;
+
 /**
  * Flag to determine if terminal has been initialize.
  * @type {number}
@@ -33,7 +39,9 @@ $(function () {
     var string;
     if (jsterm.init == 0) {
         $.getJSON("http://localhost:8080/game", function (data) {
+            console.log(data);
             jsterm.gamestate = data;
+            jsterm.display();
             jsterm.initialize();
         });
     }
@@ -41,7 +49,7 @@ $(function () {
 
     $(window).keyup(function (event) {
 
-        // get the charator from the keyboard
+        // get the character from the keyboard
         var char = String.fromCharCode(event.keyCode);
 
         // removes the cursor from the current line
@@ -90,6 +98,7 @@ jsterm.initialize = function () {
     );
 
 };
+
 /**
  * Updates the terminal screen
  * @param string
@@ -147,6 +156,11 @@ jsterm.removeCursor = function () {
     $('.cursor').remove();
 };
 
+
+/**
+ * Check if user input is a valid command
+ * Check if there is the right about of arguments.
+ */
 jsterm.command = function () {
     var row = $('#row-' + jsterm.count).html();
     var commandArray = row.split(" ");
@@ -287,15 +301,79 @@ jsterm.error = function (error) {
     );
 };
 
+/**
+ * Displays the current gamestate
+ */
 jsterm.display = function () {
-    for (var k in jsterm.gamestate) {
-        if (jsterm.gamestate.hasOwnProperty((k))) {
-            $('#terminal').append(
-                $('<div></div>').html("Key is " + k + ", value is " + jsterm.gamestate[k])
-            );
-        }
-    }
+    // build unique id
+    var id = 'display-' + jsterm.displayCount ;
+
+    // Create div that information will be appended too.
+    $('#terminal').append(
+        $('<div class="' + id + '"></div>')
+    );
+
+    // creating Dealer display
+    jsterm.dealerDisplay(id);
+
+    // Creating player display
+    jsterm.playerDisplay(id);
+
+    jsterm.displayCount++;
+
+    
+
 };
 
+/**
+ * Build the dealer display
+ * @param id
+ */
+jsterm.dealerDisplay = function (id) {
+    var display = "";
+    var hideFlag = 1;
+    display += 'Dealer: ';
+
+    // Adding cards to the dealer display hiding the first card.
+    for (var k in jsterm.gamestate['dealer']['hand']) {
+        if (hideFlag) {
+            display += '[ ]';
+            hideFlag = 0;
+        }
+        else {
+            display += '[' + jsterm.gamestate['dealer']['hand'][k].value + jsterm.gamestate['dealer']['hand'][k].suit + ']';
+        }
+    }
+    // Appending the dealer display.
+    $('.' + id).append(
+        $('<div></div>').html(display)
+    );
+};
+
+jsterm.playerDisplay = function (id) {
+    var display = "";
+    display += 'Player: ';
+
+    // Adding cards to the dealer display hiding the first card.
+    for (var k in jsterm.gamestate['dealer']['hand']) {
+        display += '[' + jsterm.gamestate['player']['hand'][k].value + jsterm.gamestate['player']['hand'][k].suit + ']';
+
+    }
+
+    display += '<br/>';
+
+    // Formatting Money
+    display += "Money: $" + jsterm.gamestate['player']['money'];
+
+    display += '<br/>';
+
+    // Formatting Bet
+    display += "Current Bet: $" + jsterm.gamestate['player']['bet'];
+
+    $('.' + id).append(
+        $('<div></div>').html(display)
+    );
+
+};
 
 
