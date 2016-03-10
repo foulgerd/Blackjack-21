@@ -30,9 +30,11 @@ public class testUser {
     public void testTakeCard() {
         //Arrange
         User u = new User();
+        Deck deck = new Deck();
 
         //Act
-        u.takeCard();
+        deck.build();
+        u.takeCard(deck.deal());
 
         //Assert
         assertEquals(u.hand.size(), 0);
