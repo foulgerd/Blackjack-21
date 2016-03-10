@@ -20,5 +20,4 @@ public class Game {
             player.takeCardSplit(dealer.deck.deal());
         }
     }
-
 }

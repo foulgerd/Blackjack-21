@@ -56,6 +56,13 @@ public class ApplicationController {
         return Results.json().render(g);
     }
 
+    public Result betPOST(Context context,@PathParam("amount") int amount, Game g){
+        if (context.getRequestPath().contains("bet")) {
+            g.player.setBet(amount);
+        }
+        return Results.json().render(g);
+    }
+
     /*public Result stayPOST(Context context, Test t){
         if(context.getRequestPath().contains("stay")){
             t.getStay();
@@ -70,12 +77,7 @@ public class ApplicationController {
         return Results.json().render(t);
     }
 
-    public Result betPOST(Context context, Test t){
-        if (context.getRequestPath().contains("bet")) {
-            t.getBet();
-        }
-        return Results.json().render(t);
-    }
+
 
     public Result doubledownPOST(Context context, Test t){
         if(context.getRequestPath().contains("doubledown")){
