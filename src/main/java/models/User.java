@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class User {
     public java.util.ArrayList<Card> hand = new ArrayList<>();
 
-    public void takeCard() { }
+    public void takeCard(Card c) { };
 
     public int getScore() {
         int score = 0;
@@ -61,7 +61,7 @@ public class User {
         }
 
         // If the score is over the 21
-        // and there is on ace remove 11 and add 1
+        // and there is one ace, remove 11 and add 1
         if(score > 21 && aceFlag == 1){
             score -= 11;
             score += 1;
@@ -69,4 +69,5 @@ public class User {
 
         return score;
     }
+
 }
