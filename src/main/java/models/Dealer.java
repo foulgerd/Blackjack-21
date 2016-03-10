@@ -25,4 +25,5 @@ public class Dealer extends User {
     }
 
     public int getTotalScore() { return score; }
+
 }

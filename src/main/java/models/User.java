@@ -62,6 +62,7 @@ public class User {
 
         // If the score is over the 21
         // and there is one ace, remove 11 and add 1
+
         if(score > 21 && aceFlag == 1){
             score -= 11;
             score += 1;
