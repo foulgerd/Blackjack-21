@@ -82,6 +82,10 @@ $(function () {
                 break;
             case 13: // Return Key
                 jsterm.command();
+                
+                if(jsterm.gamestate['winner']){
+                    jsterm.displayWinner(jsterm.gamestate['winner']);
+                }
                 string = jsterm.return();
 
                 // Writing game state to log
@@ -92,6 +96,7 @@ $(function () {
                 string = jsterm.insert(char);
 
         }
+
 
         if (string != null)
         // Prints the screen.
@@ -433,6 +438,31 @@ jsterm.playerDisplay = function (id) {
         $('<div></div>').html(display)
     );
 
+};
+
+jsterm.displayWinner = function(winner){
+    // build unique id
+    var id = 'display-' + jsterm.displayCount;
+
+    // Create div that information will be appended too.
+    $('#terminal').append(
+        $('<div id="' + id + '"></div>')
+    );
+
+    if(winner == 1){
+        $('#' + id).append(
+            $('<div></div>').html("YOU WON!")
+        );
+    }
+    else if(winner == 2)
+    {
+        $('#' + id).append(
+            $('<div></div>').html("YOU LOST!")
+        );
+    }
+
+    // Increase display count
+    jsterm.displayCount++;
 };
 
 
