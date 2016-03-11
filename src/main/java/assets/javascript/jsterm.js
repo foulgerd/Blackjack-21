@@ -193,19 +193,25 @@ jsterm.command = function () {
         jsterm.doubledown();
     }
     else if (!commandArray[1].localeCompare("SPLIT")) {
-        jsterm.split();
+        if (jsterm.gamestate['player']['hand'][0]['value'] == jsterm.gamestate['player']['hand'][1]['value']) {
+            jsterm.split();
+        }
+        else {
+            jsterm.error("Error: Your two cards values are not the same. Can't split");
+        }
+
     }
-    else if (!commandArray[1].localeCompare("BET")){
-        if((commandArray.length == 3) && !jsterm.betFlag) {
-            if(jsterm.gamestate['player']['money'] > parseInt(commandArray[2])) {
+    else if (!commandArray[1].localeCompare("BET")) {
+        if ((commandArray.length == 3) && !jsterm.betFlag) {
+            if (jsterm.gamestate['player']['money'] > parseInt(commandArray[2])) {
                 jsterm.bet(parseInt(commandArray[2]));
                 jsterm.betFlag = 1;
             }
-            else{
+            else {
                 jsterm.error("Error: You dont have that much money to bet.");
             }
         }
-        else{
+        else {
             jsterm.error("Error: You did specify an amout or have changed your bet amount. ")
         }
     }
@@ -384,6 +390,19 @@ jsterm.playerDisplay = function (id) {
     }
 
     display += '<br/>';
+
+
+
+    // If the player has split show the second hand
+    if (jsterm.gamestate['player']['split']) {
+
+        display += 'Hand 2: ';
+        for (var k in jsterm.gamestate['player']['splithand']) {
+            display += '[' + jsterm.gamestate['player']['splithand'][k].value + jsterm.gamestate['player']['splithand'][k].suit + ']';
+
+        }
+        display += '<br/>';
+    }
 
     // Formatting Money
     display += "Money: $" + jsterm.gamestate['player']['money'];

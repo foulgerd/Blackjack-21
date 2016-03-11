@@ -68,18 +68,18 @@ public class ApplicationController {
             t.getStay();
         }
         return Results.json().render(t);
-    }
+    }*/
 
-    public Result splitPOST(Context context, Test t){
+    public Result splitPOST(Context context, Game g){
         if(context.getRequestPath().contains("split")){
-            t.getSpit();
+            g.SplitPlayerHand();
         }
-        return Results.json().render(t);
+        return Results.json().render(g);
     }
 
 
 
-    public Result doubledownPOST(Context context, Test t){
+    /*public Result doubledownPOST(Context context, Test t){
         if(context.getRequestPath().contains("doubledown")){
             t.getDoubleDown();
         }
