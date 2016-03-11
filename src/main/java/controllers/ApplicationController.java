@@ -52,6 +52,7 @@ public class ApplicationController {
     public Result hitPOST(Context context, @PathParam("hand") char hand, Game g){
         if(context.getRequestPath().contains("hit")){
            g.Hit(hand);
+            g.Logic();
         }
         return Results.json().render(g);
     }
@@ -63,28 +64,29 @@ public class ApplicationController {
         return Results.json().render(g);
     }
 
-    /*public Result stayPOST(Context context, Test t){
+    public Result stayPOST(Context context, Game g){
         if(context.getRequestPath().contains("stay")){
-            t.getStay();
-        }
-        return Results.json().render(t);
-    }*/
-
-    public Result splitPOST(Context context, Game g){
-        if(context.getRequestPath().contains("split")){
-            g.SplitPlayerHand();
+            g.Stay();
+            g.Logic();
         }
         return Results.json().render(g);
     }
 
-
-
-    /*public Result doubledownPOST(Context context, Test t){
-        if(context.getRequestPath().contains("doubledown")){
-            t.getDoubleDown();
+    public Result splitPOST(Context context, Game g){
+        if(context.getRequestPath().contains("split")){
+            g.SplitPlayerHand();
+            g.Logic();
         }
-        return Results.json().render(t);
-    }*/
+        return Results.json().render(g);
+    }
+
+    public Result doubledownPOST(Context context, Game g){
+        if(context.getRequestPath().contains("doubledown")){
+           g.player.doubleDown();
+            g.Logic();
+        }
+        return Results.json().render(g);
+    }
 
 
 }

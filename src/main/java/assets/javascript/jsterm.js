@@ -21,6 +21,12 @@ jsterm.gamestate = null;
 jsterm.betFlag = 0;
 
 /**
+ * Hold a flag for if the user stayed.
+ * @type {number}
+ */
+jsterm.stayFlag = 0;
+
+/**
  * Hold the counter of rows
  * @type {number}
  */
@@ -76,6 +82,10 @@ $(function () {
                 break;
             case 13: // Return Key
                 jsterm.command();
+                
+                if(jsterm.gamestate['winner']){
+                    jsterm.displayWinner(jsterm.gamestate['winner']);
+                }
                 string = jsterm.return();
 
                 // Writing game state to log
@@ -86,6 +96,7 @@ $(function () {
                 string = jsterm.insert(char);
 
         }
+
 
         if (string != null)
         // Prints the screen.
@@ -187,10 +198,16 @@ jsterm.command = function () {
 
     }
     else if (!commandArray[1].localeCompare("STAY")) {
+        jsterm.stayFlag = 1;
         jsterm.stay();
     }
     else if (!commandArray[1].localeCompare("DOUBLEDOWN")) {
-        jsterm.doubledown();
+        if(jsterm.gamestate['player']['money'] >= (jsterm.gamestate['player']['bet'] * 2) && !jsterm.gamestate['player']['ddown'] ) {
+            jsterm.doubledown();
+        }
+        else{
+            jsterm.error("Error: You do not have enough money to double down/ or you have already doubled down once.");
+        }
     }
     else if (!commandArray[1].localeCompare("SPLIT")) {
         if (jsterm.gamestate['player']['hand'][0]['value'] == jsterm.gamestate['player']['hand'][1]['value']) {
@@ -340,15 +357,16 @@ jsterm.display = function () {
 
     // Create div that information will be appended too.
     $('#terminal').append(
-        $('<div class="' + id + '"></div>')
+        $('<div id="' + id + '"></div>')
     );
 
-    // creating Dealer display
+    // Creating Dealer display
     jsterm.dealerDisplay(id);
 
     // Creating player display
     jsterm.playerDisplay(id);
 
+    // Increase display count
     jsterm.displayCount++;
 
 
@@ -363,9 +381,15 @@ jsterm.dealerDisplay = function (id) {
     var hideFlag = 1;
     display += 'Dealer: ';
 
+    console.log(jsterm.stayFlag);
+    // if the stayFlag is set then show all the cards
+    if(jsterm.stayFlag){
+        hideFlag = 0;
+    }
+
     // Adding cards to the dealer display hiding the first card.
     for (var k in jsterm.gamestate['dealer']['hand']) {
-        if (hideFlag) {
+        if (hideFlag ) {
             display += '[ ]';
             hideFlag = 0;
         }
@@ -374,7 +398,7 @@ jsterm.dealerDisplay = function (id) {
         }
     }
     // Appending the dealer display.
-    $('.' + id).append(
+    $('#' + id).append(
         $('<div></div>').html(display)
     );
 };
@@ -390,8 +414,6 @@ jsterm.playerDisplay = function (id) {
     }
 
     display += '<br/>';
-
-
 
     // If the player has split show the second hand
     if (jsterm.gamestate['player']['split']) {
@@ -412,10 +434,35 @@ jsterm.playerDisplay = function (id) {
     // Formatting Bet
     display += "Current Bet: $" + jsterm.gamestate['player']['bet'];
 
-    $('.' + id).append(
+    $('#' + id).append(
         $('<div></div>').html(display)
     );
 
+};
+
+jsterm.displayWinner = function(winner){
+    // build unique id
+    var id = 'display-' + jsterm.displayCount;
+
+    // Create div that information will be appended too.
+    $('#terminal').append(
+        $('<div id="' + id + '"></div>')
+    );
+
+    if(winner == 1){
+        $('#' + id).append(
+            $('<div></div>').html("YOU WON!")
+        );
+    }
+    else if(winner == 2)
+    {
+        $('#' + id).append(
+            $('<div></div>').html("YOU LOST!")
+        );
+    }
+
+    // Increase display count
+    jsterm.displayCount++;
 };
 
 
