@@ -201,6 +201,7 @@ public class testGame {
         // setting dealer to score of 5
         g.player.takeCard(c2);
 
+        g.stayFlag = 1;
         g.Logic();
 
         assertEquals(2,g.winner);
@@ -226,6 +227,7 @@ public class testGame {
         // setting dealer to score of 5
         g.player.takeCard(c2);
 
+        g.stayFlag = 1;
         g.Logic();
 
         assertEquals(1,g.winner);

@@ -55,6 +55,10 @@ public class Game {
             player.winBet();
             winner = 1; // winner player
         }
+        else if(player.calculateScore() == dealer.calculateScore() && (stayFlag == 1)){
+            player.winBet();
+            winner = 1; // winner player
+        }
         // no winner
     }
 
