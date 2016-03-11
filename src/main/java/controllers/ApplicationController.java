@@ -63,12 +63,12 @@ public class ApplicationController {
         return Results.json().render(g);
     }
 
-    /*public Result stayPOST(Context context, Test t){
+    public Result stayPOST(Context context, Game g){
         if(context.getRequestPath().contains("stay")){
-            t.getStay();
+            g.Stay();
         }
-        return Results.json().render(t);
-    }*/
+        return Results.json().render(g);
+    }
 
     public Result splitPOST(Context context, Game g){
         if(context.getRequestPath().contains("split")){
