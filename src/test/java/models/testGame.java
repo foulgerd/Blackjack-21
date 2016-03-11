@@ -80,4 +80,28 @@ public class testGame {
         assertTrue(g.dealer.hand.size() >= 2);
     }
 
+    @Test
+    public void testGameNewRound(){
+        //arrange
+        Game game = new Game();
+
+        //Act
+        game.Hit('1');
+        game.Hit('1');
+        game.player.split();
+        game.Hit('2');
+
+        //Assert
+        assertEquals(1,game.player.hand.size());
+        assertEquals(2,game.player.splithand.size());
+
+        //Act
+        game.NewRound();
+
+        //Assert
+        assertEquals(2,game.player.hand.size());
+        assertEquals(2,game.dealer.hand.size());
+        assertEquals(0,game.player.splithand.size());
+    }
+
 }
