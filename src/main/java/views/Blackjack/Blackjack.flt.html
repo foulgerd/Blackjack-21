@@ -48,7 +48,16 @@
                 <h3 class="modal-title">Blackjack Rules</h3>
             </div>
             <div class="modal-body">
-
+                <p>
+                    The goal of blackjack is to get a total value of 21, which is determined
+                    by the number on each card. The dealer and player are initially dealt 2 cards.
+                    From there the player has the choice to place a bet with a minimum bet is $2.
+                    After that the player can then ask for another card. If they get a card amount
+                    over 21, they bust. This means that the player will lose their bet. Once the
+                    player is got the number they want, they can stay. The dealer will then start
+                    their turn and draw until they have 17 or more. If the dealer busts, the player
+                    wins. If the dealer and player both tie, the user will win.
+                </p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -69,11 +78,12 @@
                 <h3 class="modal-title">Terminal Commands</h3>
             </div>
             <div class="modal-body">
-                <p>HIT</p>
-                <p><strong>STAY</strong></p>
-                <p><strong>BET</strong></p>
-                <p><strong>DOUBLEDOWN</strong></p>
-                <p><strong>SPLIT</strong></p>
+                <p><strong>HIT</strong> {n}, where n is either 1 or 2 for hand (1) or splithand (2)</p>
+                <p><strong>STAY</strong> to end turn</p>
+                <p><strong>BET</strong> {amount}</p>
+                <p><strong>DOUBLEDOWN</strong> for double bet</p>
+                <p><strong>SPLIT</strong> to create a new hand</p>
+                <p><strong>RESET</strong> to reset game</p>
 
             </div>
             <div class="modal-footer">
