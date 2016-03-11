@@ -11,10 +11,11 @@ public class User {
     @JsonIgnoreProperties(ignoreUnknown = true)
     public java.util.ArrayList<Card> hand = new ArrayList<>();
 
+
     public void takeCard(Card c) { }
 
 
-    public int calculateScore() {
+    public int calculateScore(ArrayList<Card> hand) {
         int temp = 0;
         int aceFlag = 0;
         for(Card c : hand){
