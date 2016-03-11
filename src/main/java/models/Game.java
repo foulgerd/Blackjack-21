@@ -97,7 +97,7 @@ public class Game {
                     winner = 2;
                     player.loseBet();
                     return;
-                } else {
+                }else {
                     winner = 1;
                     player.winBet();
                     return;
@@ -106,7 +106,7 @@ public class Game {
         } else {
 
             //Checks splithand against dealer
-            if (player.split == 1 && split21 == 0) {
+            if (player.split == 1) {
                 if ((player.calculateScore(player.hand) == 21 && player.calculateScore(player.splithand) == 21)) {
                     winner = 1;
                     player.winBet();
@@ -114,7 +114,6 @@ public class Game {
                 }
                 if (player.calculateScore(player.splithand) > 21) {
                     hand2 = 0;
-                    bust2 = 1;
                 }
             }
 
@@ -130,7 +129,7 @@ public class Game {
                 player.loseBet();
                 winner = 2;
                 return;
-            } else if ((hand1 == 1 && hand2 == 1) || (dealerBust == 1)) {
+            } else if ((hand1 == 1 && hand2 == 1)) {
                 player.winBet();
                 winner = 1;
                 return;
@@ -139,20 +138,10 @@ public class Game {
                 player.winBet();
                 winner = 1;
                 return;
-            } else if (hand1 == 0 && hand2 == 1) {
-                player.setBet(player.bet / 2);
-                player.winBet();
-                winner = 1;
-                return;
             } else if ((hand1 == 1 && hand2 == 0) && player.split == 0) {
                 player.winBet();
                 winner = 1;
                 return;
-            } else if (hand1 == 0 && player.split == 0 && bust1 == 1){
-                player.loseBet();
-                winner = 2;
-                return;
-            } else{
             }
         }
     }
