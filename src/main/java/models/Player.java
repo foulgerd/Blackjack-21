@@ -7,8 +7,7 @@ import java.util.ArrayList;
  */
 public class Player extends User {
 
-    //public java.util.List<Card> hand = new ArrayList<>();
-    public java.util.List<Card> splithand = new ArrayList<>();
+    public java.util.ArrayList<Card> splithand = new ArrayList<>();
     public int bet;
     public int money;
     public int split;

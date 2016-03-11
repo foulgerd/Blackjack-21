@@ -34,28 +34,56 @@ public class Game {
     }
 
     public void Logic() {
+        //Checks splithand against dealer
+        if(player.split == 1){
+            if(player.calculateScore(player.splithand) > 21){
+                player.loseBet();
+                winner = 2; // winner dealer
+            }
+            else if((dealer.calculateScore(dealer.hand) > 21) && stayFlag == 1){
+                player.winBet();
+                winner = 1; // winner player
+            }
+            else if((player.calculateScore(player.splithand) > dealer.calculateScore(player.hand)) && stayFlag == 1){
+                player.winBet();
+                winner = 1; // winner player
+            }
+            else if((player.calculateScore(player.splithand) < dealer.calculateScore(dealer.hand)) && (stayFlag == 1)){
+                player.loseBet();
+                winner = 2; // winner dealer
+            }
+            else if(player.calculateScore(player.splithand) == 21){
+                player.winBet();
+                winner = 1; // winner player
+            }
+            else if(player.calculateScore(player.splithand) == dealer.calculateScore(dealer.hand) && (stayFlag == 1)){
+                player.winBet();
+                winner = 1; // winner player
+            }
+        }
 
-        if(player.calculateScore() > 21){
+        //checks hand against dealer
+        if(player.calculateScore(player.hand) > 21){
             player.loseBet();
             winner = 2; // winner dealer
         }
-        else if((dealer.calculateScore() > 21) && stayFlag == 1){
+        else if((dealer.calculateScore(dealer.hand) > 21) && stayFlag == 1){
             player.winBet();
             winner = 1; // winner player
         }
-        else if((player.calculateScore() > dealer.calculateScore()) && stayFlag == 1){
+        else if((player.calculateScore(player.hand) > dealer.calculateScore(dealer.hand)) && stayFlag == 1){
             player.winBet();
             winner = 1; // winner player
         }
-        else if((player.calculateScore() < dealer.calculateScore()) && (stayFlag == 1)){
+        else if((player.calculateScore(player.hand) < dealer.calculateScore(dealer.hand)) && (stayFlag == 1)){
             player.loseBet();
             winner = 2; // winner dealer
         }
-        else if(player.calculateScore() == 21){
+        else if(player.calculateScore(player.hand) == 21){
             player.winBet();
             winner = 1; // winner player
         }
-        else if(player.calculateScore() == dealer.calculateScore() && (stayFlag == 1)){
+        else if(player.calculateScore(player.hand) == dealer.calculateScore(dealer.hand) && (stayFlag == 1)){
             player.winBet();
             winner = 1; // winner player
         }

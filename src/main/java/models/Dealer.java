@@ -19,7 +19,7 @@ public class Dealer extends User {
     }
 
     public void play() {
-        while (calculateScore() < 17) {
+        while (calculateScore(hand) < 17) {
             takeCard(deck.deal());
         }
     }
