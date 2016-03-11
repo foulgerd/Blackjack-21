@@ -52,6 +52,7 @@ public class ApplicationController {
     public Result hitPOST(Context context, @PathParam("hand") char hand, Game g){
         if(context.getRequestPath().contains("hit")){
            g.Hit(hand);
+            g.Logic();
         }
         return Results.json().render(g);
     }
@@ -66,6 +67,7 @@ public class ApplicationController {
     public Result stayPOST(Context context, Game g){
         if(context.getRequestPath().contains("stay")){
             g.Stay();
+            g.Logic();
         }
         return Results.json().render(g);
     }
@@ -73,6 +75,7 @@ public class ApplicationController {
     public Result splitPOST(Context context, Game g){
         if(context.getRequestPath().contains("split")){
             g.SplitPlayerHand();
+            g.Logic();
         }
         return Results.json().render(g);
     }
@@ -80,6 +83,7 @@ public class ApplicationController {
     public Result doubledownPOST(Context context, Game g){
         if(context.getRequestPath().contains("doubledown")){
            g.player.doubleDown();
+            g.Logic();
         }
         return Results.json().render(g);
     }
