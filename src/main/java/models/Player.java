@@ -41,16 +41,12 @@ public class Player extends User {
         temp = hand.get(hand.size()-1);
         splithand.add(temp);
         hand.remove(hand.size()-1);
+        doubleDown();
     }
 
-    public void loseBet(){
-        money = money - bet;
-    }
+    public void loseBet(){ money = money - bet; }
 
-    public void winBet(){
-        money = money + bet;
-    }
+    public void winBet(){ money = money + bet; }
 
     public void doubleDown() { bet = bet * 2;}
-
 }

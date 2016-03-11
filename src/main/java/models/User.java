@@ -11,7 +11,7 @@ public class User {
     @JsonIgnoreProperties(ignoreUnknown = true)
     public java.util.ArrayList<Card> hand = new ArrayList<>();
 
-    public void takeCard(Card c) { };
+    public void takeCard(Card c) { }
 
 
     public int calculateScore() {
