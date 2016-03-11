@@ -12,11 +12,13 @@ public class Player extends User {
     public int bet;
     public int money;
     public int split;
+    public int ddown;
 
     public Player(){
         money = 100;
         bet = 2;
         split = 0;
+        ddown = 0;
     }
 
 
@@ -48,5 +50,7 @@ public class Player extends User {
 
     public void winBet(){ money = money + bet; }
 
-    public void doubleDown() { bet = bet * 2;}
+    public void doubleDown() {
+        ddown = 1;
+        bet = bet * 2;}
 }
