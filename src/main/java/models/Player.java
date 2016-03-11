@@ -51,5 +51,6 @@ public class Player extends User {
 
     public void doubleDown() {
         ddown = 1;
-        bet = bet * 2;}
+        bet = bet * 2;
+    }
 }

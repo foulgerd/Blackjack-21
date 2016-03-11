@@ -82,7 +82,7 @@ public class ApplicationController {
 
     public Result doubledownPOST(Context context, Game g){
         if(context.getRequestPath().contains("doubledown")){
-           g.player.doubleDown();
+           g.doubleDown();
             g.Logic();
         }
         return Results.json().render(g);
