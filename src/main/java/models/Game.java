@@ -28,4 +28,32 @@ public class Game {
     public void Stay(){
         dealer.play();
     }
+
+    public void Logic() {
+
+        if(player.calculateScore() > 21){
+            player.loseBet();
+        }
+        else if(dealer.calculateScore() > 21){
+            player.winBet();
+        }
+        else if(player.calculateScore() > dealer.calculateScore()){
+            player.winBet();
+        }
+        else if(player.calculateScore() < dealer.calculateScore()){
+            player.loseBet();
+        }
+        NewRound();
+    }
+
+    public void NewRound() {
+        player.split = 0;
+        player.hand.clear();
+        player.splithand.clear();
+        dealer.hand.clear();
+        for(int i = 0; i < 2; i++) {
+            player.takeCard(dealer.deck.deal());
+            dealer.takeCard(dealer.deck.deal());
+        }
+    }
 }
