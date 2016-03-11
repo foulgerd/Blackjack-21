@@ -85,6 +85,9 @@ $(function () {
                 
                 if(jsterm.gamestate['winner']){
                     jsterm.displayWinner(jsterm.gamestate['winner']);
+                    jsterm.stayFlag = 0;
+                    jsterm.betFlag = 0;
+                    jsterm.newround();
                 }
                 string = jsterm.return();
 
@@ -319,6 +322,25 @@ jsterm.split = function () {
 };
 
 /**
+ * Make an ajax call to the "new round" route
+ */
+jsterm.newround = function () {
+    $.ajax({
+        type: "POST",
+        url: "/newround",
+        async: false,
+        data: JSON.stringify(jsterm.gamestate),
+        success: function (data, status) {
+            jsterm.gamestate = data;
+
+        },
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+    });
+    jsterm.display();
+};
+
+/**
  * Makes an ajax call to the "BET" route
  */
 jsterm.bet = function (amount) {
@@ -451,13 +473,13 @@ jsterm.displayWinner = function(winner){
 
     if(winner == 1){
         $('#' + id).append(
-            $('<div></div>').html("YOU WON!")
+            $('<div></div>').html("YOU WON!<br/><br/>")
         );
     }
     else if(winner == 2)
     {
         $('#' + id).append(
-            $('<div></div>').html("YOU LOST!")
+            $('<div></div>').html("YOU LOST!<br/><br/>")
         );
     }
 

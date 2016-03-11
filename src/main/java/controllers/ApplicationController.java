@@ -88,5 +88,11 @@ public class ApplicationController {
         return Results.json().render(g);
     }
 
+    public Result roundPOST(Context context, Game g){
+        if(context.getRequestPath().contains("round")){
+          g.NewRound();
+        }
+        return Results.json().render(g);
+    }
 
 }
