@@ -64,6 +64,8 @@ public class Game {
 
     public void NewRound() {
         player.split = 0;
+        stayFlag = 0;
+        winner = 0;
         player.hand.clear();
         player.splithand.clear();
         dealer.hand.clear();
