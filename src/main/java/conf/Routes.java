@@ -39,6 +39,7 @@ public class Routes implements ApplicationRoutes {
         router.POST().route("/doubledown").with(ApplicationController.class, "doubledownPOST");
         router.POST().route("/stay").with(ApplicationController.class, "stayPOST");
         router.POST().route("/newround").with(ApplicationController.class, "roundPOST");
+        router.POST().route("/reset").with(ApplicationController.class, "gameGet");
 
 
         ///////////////////////////////////////////////////////////////////////

@@ -16,8 +16,9 @@
     /*background-color: #000000;
     color: #ffffff;*/
     min-height: calc(100% - 350px);
-    max-height:100%;
+    max-height:calc(100% - 350px);
     font-family: 'cousine';
+    overflow-y: scroll;
 
 }
 
