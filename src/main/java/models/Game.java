@@ -6,6 +6,7 @@ package models;
 public class Game {
     public Player player;
     public Dealer dealer;
+    public int winner;
 
     public Game(){
         player = new Player();
@@ -33,17 +34,21 @@ public class Game {
 
         if(player.calculateScore() > 21){
             player.loseBet();
+            winner = 2; // winner dealer
         }
         else if(dealer.calculateScore() > 21){
             player.winBet();
+            winner = 1; // winner player
         }
         else if(player.calculateScore() > dealer.calculateScore()){
             player.winBet();
+            winner = 1; // winner player
         }
         else if(player.calculateScore() < dealer.calculateScore()){
             player.loseBet();
+            winner = 2; // winner dealer
         }
-        NewRound();
+        // no winner
     }
 
     public void NewRound() {
