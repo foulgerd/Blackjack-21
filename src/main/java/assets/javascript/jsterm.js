@@ -21,6 +21,12 @@ jsterm.gamestate = null;
 jsterm.betFlag = 0;
 
 /**
+ * Hold a flag for if the user stayed.
+ * @type {number}
+ */
+jsterm.stayFlag = 0;
+
+/**
  * Hold the counter of rows
  * @type {number}
  */
@@ -187,6 +193,7 @@ jsterm.command = function () {
 
     }
     else if (!commandArray[1].localeCompare("STAY")) {
+        jsterm.stayFlag = 1;
         jsterm.stay();
     }
     else if (!commandArray[1].localeCompare("DOUBLEDOWN")) {
@@ -345,15 +352,16 @@ jsterm.display = function () {
 
     // Create div that information will be appended too.
     $('#terminal').append(
-        $('<div class="' + id + '"></div>')
+        $('<div id="' + id + '"></div>')
     );
 
-    // creating Dealer display
+    // Creating Dealer display
     jsterm.dealerDisplay(id);
 
     // Creating player display
     jsterm.playerDisplay(id);
 
+    // Increase display count
     jsterm.displayCount++;
 
 
@@ -368,9 +376,15 @@ jsterm.dealerDisplay = function (id) {
     var hideFlag = 1;
     display += 'Dealer: ';
 
+    console.log(jsterm.stayFlag);
+    // if the stayFlag is set then show all the cards
+    if(jsterm.stayFlag){
+        hideFlag = 0;
+    }
+
     // Adding cards to the dealer display hiding the first card.
     for (var k in jsterm.gamestate['dealer']['hand']) {
-        if (hideFlag) {
+        if (hideFlag ) {
             display += '[ ]';
             hideFlag = 0;
         }
@@ -379,7 +393,7 @@ jsterm.dealerDisplay = function (id) {
         }
     }
     // Appending the dealer display.
-    $('.' + id).append(
+    $('#' + id).append(
         $('<div></div>').html(display)
     );
 };
@@ -395,8 +409,6 @@ jsterm.playerDisplay = function (id) {
     }
 
     display += '<br/>';
-
-
 
     // If the player has split show the second hand
     if (jsterm.gamestate['player']['split']) {
@@ -417,7 +429,7 @@ jsterm.playerDisplay = function (id) {
     // Formatting Bet
     display += "Current Bet: $" + jsterm.gamestate['player']['bet'];
 
-    $('.' + id).append(
+    $('#' + id).append(
         $('<div></div>').html(display)
     );
 
