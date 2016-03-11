@@ -77,14 +77,12 @@ public class ApplicationController {
         return Results.json().render(g);
     }
 
-
-
-    /*public Result doubledownPOST(Context context, Test t){
+    public Result doubledownPOST(Context context, Game g){
         if(context.getRequestPath().contains("doubledown")){
-            t.getDoubleDown();
+           g.player.doubleDown();
         }
-        return Results.json().render(t);
-    }*/
+        return Results.json().render(g);
+    }
 
 
 }

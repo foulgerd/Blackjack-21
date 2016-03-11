@@ -190,7 +190,12 @@ jsterm.command = function () {
         jsterm.stay();
     }
     else if (!commandArray[1].localeCompare("DOUBLEDOWN")) {
-        jsterm.doubledown();
+        if(jsterm.gamestate['player']['money'] >= (jsterm.gamestate['player']['bet'] * 2) && !jsterm.gamestate['player']['ddown'] ) {
+            jsterm.doubledown();
+        }
+        else{
+            jsterm.error("Error: You do not have enough money to double down/ or you have already doubled down once.");
+        }
     }
     else if (!commandArray[1].localeCompare("SPLIT")) {
         if (jsterm.gamestate['player']['hand'][0]['value'] == jsterm.gamestate['player']['hand'][1]['value']) {
