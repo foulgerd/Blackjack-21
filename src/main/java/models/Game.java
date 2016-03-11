@@ -58,12 +58,12 @@ public class Game {
                     player.loseBet();
                     winner = 2;
                     return;
-                } else if ((player.calculateScore(player.hand) > dealer.calculateScore(dealer.hand)) && (player.calculateScore(player.hand) < dealer.calculateScore(dealer.hand)) || (player.calculateScore(player.hand) > 21 && player.calculateScore(player.splithand) == 21) || (player.calculateScore(player.hand) == 21 && player.calculateScore(player.splithand) > 21)){
+                } else if ((player.calculateScore(player.hand) > dealer.calculateScore(dealer.hand)) && (player.calculateScore(player.splithand) < dealer.calculateScore(dealer.hand)) || (player.calculateScore(player.hand) > 21 && player.calculateScore(player.splithand) == 21) || (player.calculateScore(player.hand) == 21 && player.calculateScore(player.splithand) > 21)){
                     player.setBet(player.bet / 2);
                     player.winBet();
                     winner = 1;
                     return;
-                } else if ((player.calculateScore(player.hand) < dealer.calculateScore(dealer.hand)) && (player.calculateScore(player.hand) > dealer.calculateScore(dealer.hand)) || (player.calculateScore(player.hand) > dealer.calculateScore(dealer.hand)) && (player.calculateScore(player.hand) < dealer.calculateScore(dealer.hand))){
+                } else if ((player.calculateScore(player.hand) < dealer.calculateScore(dealer.hand)) && (player.calculateScore(player.splithand) > dealer.calculateScore(dealer.hand))) {
                     player.setBet(player.bet / 2);
                     player.winBet();
                     winner = 1;
