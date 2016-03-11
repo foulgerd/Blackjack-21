@@ -54,7 +54,7 @@ public class Game {
     public void Logic() {
         if (stayFlag == 1) {
             if (player.split == 1) {
-                if ((player.calculateScore(player.hand) < dealer.calculateScore(dealer.hand)) && (player.calculateScore(player.hand) < dealer.calculateScore(dealer.hand))) {
+                if ((player.calculateScore(player.hand) < dealer.calculateScore(dealer.hand)) && (player.calculateScore(player.splithand) < dealer.calculateScore(dealer.hand))) {
                     player.loseBet();
                     winner = 2;
                     return;
@@ -63,7 +63,7 @@ public class Game {
                     player.winBet();
                     winner = 1;
                     return;
-                } else if ((player.calculateScore(player.hand) < dealer.calculateScore(dealer.hand)) && (player.calculateScore(player.hand) > dealer.calculateScore(dealer.hand))) {
+                } else if ((player.calculateScore(player.hand) < dealer.calculateScore(dealer.hand)) && (player.calculateScore(player.hand) > dealer.calculateScore(dealer.hand)) || (player.calculateScore(player.hand) > dealer.calculateScore(dealer.hand)) && (player.calculateScore(player.hand) < dealer.calculateScore(dealer.hand))){
                     player.setBet(player.bet / 2);
                     player.winBet();
                     winner = 1;
