@@ -8,6 +8,7 @@ import java.util.Random;
 
 /**
  * Created by nathan on 3/10/16.
+ *
  */
 public class Game {
     public Player player;
