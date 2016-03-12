@@ -82,9 +82,12 @@ $(function () {
                 break;
             case 13: // Return Key
                 jsterm.command();
-                
-                if(jsterm.gamestate['winner']){
+
+                if (jsterm.gamestate['winner']) {
                     jsterm.displayWinner(jsterm.gamestate['winner']);
+                    jsterm.stayFlag = 0;
+                    jsterm.betFlag = 0;
+                    jsterm.newround();
                 }
                 string = jsterm.return();
 
@@ -202,10 +205,10 @@ jsterm.command = function () {
         jsterm.stay();
     }
     else if (!commandArray[1].localeCompare("DOUBLEDOWN")) {
-        if(jsterm.gamestate['player']['money'] >= (jsterm.gamestate['player']['bet'] * 2) && !jsterm.gamestate['player']['ddown'] ) {
+        if (jsterm.gamestate['player']['money'] >= (jsterm.gamestate['player']['bet'] * 2) && !jsterm.gamestate['player']['ddown']) {
             jsterm.doubledown();
         }
-        else{
+        else {
             jsterm.error("Error: You do not have enough money to double down/ or you have already doubled down once.");
         }
     }
@@ -231,6 +234,9 @@ jsterm.command = function () {
         else {
             jsterm.error("Error: You did specify an amout or have changed your bet amount. ")
         }
+    }
+    else if (!commandArray[1].localeCompare("RESET")) {
+        jsterm.reset();
     }
     else {
         //alert("Error: Not a command");
@@ -319,12 +325,53 @@ jsterm.split = function () {
 };
 
 /**
+ * Make an ajax call to the "new round" route
+ */
+jsterm.newround = function () {
+    $.ajax({
+        type: "POST",
+        url: "/newround",
+        async: false,
+        data: JSON.stringify(jsterm.gamestate),
+        success: function (data, status) {
+            jsterm.gamestate = data;
+
+        },
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+    });
+    jsterm.display();
+};
+
+/**
  * Makes an ajax call to the "BET" route
  */
 jsterm.bet = function (amount) {
     $.ajax({
         type: "POST",
         url: "/bet/" + amount,
+        async: false,
+        data: JSON.stringify(jsterm.gamestate),
+        success: function (data, status) {
+            jsterm.gamestate = data;
+
+        },
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+    });
+    jsterm.display();
+
+};
+
+jsterm.reset = function () {
+    $('#terminal').empty();
+    jsterm.betFlag = 0;
+    jsterm.stayFlag = 0;
+    jsterm.count = 0;
+    jsterm.displayCount = 0;
+    $.ajax({
+        type: "POST",
+        url: "/reset",
         async: false,
         data: JSON.stringify(jsterm.gamestate),
         success: function (data, status) {
@@ -383,13 +430,13 @@ jsterm.dealerDisplay = function (id) {
 
     console.log(jsterm.stayFlag);
     // if the stayFlag is set then show all the cards
-    if(jsterm.stayFlag){
+    if (jsterm.stayFlag) {
         hideFlag = 0;
     }
 
     // Adding cards to the dealer display hiding the first card.
     for (var k in jsterm.gamestate['dealer']['hand']) {
-        if (hideFlag ) {
+        if (hideFlag) {
             display += '[ ]';
             hideFlag = 0;
         }
@@ -440,7 +487,7 @@ jsterm.playerDisplay = function (id) {
 
 };
 
-jsterm.displayWinner = function(winner){
+jsterm.displayWinner = function (winner) {
     // build unique id
     var id = 'display-' + jsterm.displayCount;
 
@@ -449,15 +496,14 @@ jsterm.displayWinner = function(winner){
         $('<div id="' + id + '"></div>')
     );
 
-    if(winner == 1){
+    if (winner == 1) {
         $('#' + id).append(
-            $('<div></div>').html("YOU WON!")
+            $('<div></div>').html("YOU WON!<br/><br/>")
         );
     }
-    else if(winner == 2)
-    {
+    else if (winner == 2) {
         $('#' + id).append(
-            $('<div></div>').html("YOU LOST!")
+            $('<div></div>').html("YOU LOST!<br/><br/>")
         );
     }
 

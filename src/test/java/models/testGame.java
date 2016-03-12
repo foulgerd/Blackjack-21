@@ -135,6 +135,23 @@ public class testGame {
     }
 
     @Test
+    public void doubleDownTest(){
+        // Arrange
+        Game g = new Game();
+        Card c1 = new Card('A','D');
+        Card c2 = new Card('5','D');
+        Card c3 = new Card('T','D');
+
+        g.player.takeCard(c2);
+        g.player.setBet(20);
+        g.doubleDown();
+
+        assertEquals(40, g.player.bet);
+        assertEquals(1,g.stayFlag);
+
+    }
+
+    @Test
     public void testLogicPlayerWin(){
 
         // Arrange
@@ -142,6 +159,8 @@ public class testGame {
         Card c1 = new Card('A','D');
         Card c2 = new Card('5','D');
         Card c3 = new Card('T','D');
+        Card c4 = new Card('4','D');
+
 
         // Assert
 
@@ -150,36 +169,114 @@ public class testGame {
         g.player.takeCard(c3);
 
         // setting dealer to score of 5
-        g.dealer.takeCard(c2);
+        g.dealer.takeCard(c3);
+        g.dealer.takeCard(c3);
+
 
         g.Logic();
 
         assertEquals(1,g.winner);
 
-    }
-
-    @Test
-    public void testLogicPlayerBust(){
-
-        // Arrange
-        Game g = new Game();
-        Card c1 = new Card('A','D');
-        Card c2 = new Card('5','D');
-        Card c3 = new Card('T','D');
-
-        // Assert
-
-        // setting player to score of
-        g.player.takeCard(c2);
+        g.player.hand.clear();
         g.player.takeCard(c3);
         g.player.takeCard(c3);
-
-        // setting dealer to score of 5
-        g.dealer.takeCard(c2);
 
         g.Logic();
+        assertEquals(1,g.winner);
 
+        g.Stay();
+        g.Logic();
+
+        assertEquals(1,g.winner);
+
+
+        //Player win split
+        g.player.hand.clear();
+        g.player.takeCard(c1);
+        g.player.takeCard(c1);
+
+        g.player.split();
+        g.player.splithand.add(c2);
+        g.player.takeCard(c3);
+
+        g.Stay();
+        g.Logic();
+        assertEquals(1,g.winner);
+        //
+        g.player.hand.clear();
+        g.player.splithand.clear();
+        g.dealer.hand.clear();
+
+        g.player.takeCard(c3);
+        g.player.takeCard(c3);
+        g.player.split();
+        g.player.takeCard(c1);
+        g.player.splithand.add(c1);
+        g.dealer.hand.add(c2);
+        g.Logic();
+        assertEquals(1,g.winner);
+        //
+        g.player.hand.clear();
+        g.player.splithand.clear();
+        g.dealer.hand.clear();
+
+        g.stayFlag = 0;
+        g.player.takeCard(c3);
+        g.player.takeCard(c3);
+        g.player.split();
+        g.player.takeCard(c3);
+        g.player.splithand.add(c3);
+        g.player.splithand.add(c3);
+        g.dealer.hand.add(c3);
+        g.dealer.hand.add(c2);
+        g.Logic();
+        assertEquals(1, g.winner);
+        assertEquals(1, g.hand1);
+        assertEquals(0, g.hand2);
+        assertEquals(1, g.player.split);
+
+        //
+        g.stayFlag = 1;
+        g.player.split = 0;
+        g.player.hand.clear();
+        g.player.takeCard(c1);
+        g.player.takeCard(c3);
+        g.player.money = 100;
+        g.player.bet = 2;
+
+        g.Logic();
+        assertEquals(1,g.winner);
+        assertEquals(102,g.player.money);
+
+        g.player.takeCard(c3);
+        g.player.takeCard(c4);
+
+        g.Logic();
         assertEquals(2,g.winner);
+
+        //
+        g.stayFlag = 1;
+        g.player.split = 0;
+        g.player.hand.clear();
+        g.player.takeCard(c4);
+        g.player.takeCard(c3);
+        g.player.takeCard(c2);
+        g.Logic();
+        assertEquals(1,g.winner);
+
+        //
+        g.stayFlag = 0;
+        g.player.splithand.clear();
+        g.player.hand.clear();
+        g.player.takeCard(c3);
+        g.player.takeCard(c3);
+        g.player.split();
+        g.player.splithand.add(c1);
+        g.player.takeCard(c1);
+        g.Logic();
+        assertEquals(1,g.winner);
+
+
 
     }
 
@@ -206,7 +303,46 @@ public class testGame {
 
         assertEquals(2,g.winner);
 
+
     }
+
+    @Test
+    public void testLogicDealerWinSplit(){
+
+        // Arrange
+        Game g = new Game();
+        Card c1 = new Card('A','D');
+        Card c2 = new Card('5','D');
+        Card c3 = new Card('T','D');
+
+        // Assert
+
+        // setting player to score of 21
+        g.dealer.takeCard(c3);
+        g.dealer.takeCard(c3);
+
+        // setting dealer to score of 5
+        g.player.takeCard(c1);
+        g.player.takeCard(c1);
+        g.player.split();
+        g.player.splithand.add(c3);
+
+        g.stayFlag = 1;
+        g.Logic();
+
+        assertEquals(1,g.winner);
+
+        g.player.hand.clear();
+        g.player.takeCard(c2);
+        g.player.takeCard(c2);
+        g.player.split();
+
+        g.Stay();
+        g.Logic();
+
+        assertEquals(2,g.winner);
+    }
+
 
     @Test
     public void testLogicDealerBust(){
@@ -234,4 +370,28 @@ public class testGame {
 
     }
 
+    @Test
+    public void testLogicPlayerBust(){
+        // Arrange
+        Game g = new Game();
+        Card c1 = new Card('5','D');
+        Card c2 = new Card('T','D');
+        Card c3 = new Card('T','D');
+
+        // Assert
+
+        // setting player to score of
+        g.dealer.takeCard(c1);
+        g.dealer.takeCard(c3);
+
+        // setting dealer to score of 5
+        g.player.takeCard(c2);
+        g.player.takeCard(c1);
+        g.player.takeCard(c3);
+
+        g.Logic();
+
+        assertEquals(2,g.winner);
+
+    }
 }

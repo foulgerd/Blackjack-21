@@ -37,7 +37,7 @@ public class testDealer {
         int score;
 
         //Act
-        score = dealer.calculateScore();
+        score = dealer.calculateScore(dealer.hand);
 
         assertEquals(0, score);
     }
@@ -50,9 +50,9 @@ public class testDealer {
 
         //Act
         dealer.play();
-        score = dealer.calculateScore();
+        score = dealer.calculateScore(dealer.hand);
 
-        assertTrue(17 <= dealer.calculateScore());
+        assertTrue(17 <= dealer.calculateScore(dealer.hand));
         assertTrue(score >= 17);
     }
 }
