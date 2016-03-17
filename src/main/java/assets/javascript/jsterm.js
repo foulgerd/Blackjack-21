@@ -59,7 +59,7 @@ $(function () {
     }
 
 
-    $(window).keyup(function (event) {
+    $(window).keydown(function (event) {
 
         // get the character from the keyboard
         var char = String.fromCharCode(event.keyCode);
@@ -105,6 +105,9 @@ $(function () {
         // Prints the screen.
             jsterm.print(string);
 
+
+        if( event.keyCode == 8 || event.keyCode == 46 )
+                return false;
 
     });
 
